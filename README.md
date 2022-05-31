@@ -7,8 +7,8 @@ La [page titre officielle](https://www.etsmtl.ca/docs/personnel-enseignant-exame
 
 Le but de ce projet est d'offrir une alternative en LaTeX.
 
-<a href="./images/exemple_simple.png"><img src="./images/exemple_simple.png" width="300"/></a>
-<a href="./images/exemple_complexe.png"><img src="./images/exemple_complexe.png" width="300"/></a>
+<a href="https://dev.azure.com/xavierprovencal/f67f346b-d011-4c58-a5e3-73080b537fa2/_apis/git/repositories/ca7446aa-e78a-4093-b4e8-40e01ab5d3b6/items?path=/images/exemple_simple.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0&download=true"><img src="https://dev.azure.com/xavierprovencal/f67f346b-d011-4c58-a5e3-73080b537fa2/_apis/git/repositories/ca7446aa-e78a-4093-b4e8-40e01ab5d3b6/items?path=/images/exemple_simple.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0&download=true" width="300"/></a>
+<a href="https://dev.azure.com/xavierprovencal/f67f346b-d011-4c58-a5e3-73080b537fa2/_apis/git/repositories/ca7446aa-e78a-4093-b4e8-40e01ab5d3b6/items?path=/images/exemple_complexe.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0&download=true"><img src="https://dev.azure.com/xavierprovencal/f67f346b-d011-4c58-a5e3-73080b537fa2/_apis/git/repositories/ca7446aa-e78a-4093-b4e8-40e01ab5d3b6/items?path=/images/exemple_complexe.png&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=master&resolveLfs=true&%24format=octetStream&api-version=5.0&download=true" width="300"/></a>
 
 
 ## Utilisation
