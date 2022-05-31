@@ -1,0 +1,518 @@
+%% Ce fichier est pour tous ceux et celles qui préfères perdre des heures à
+%% fignoler un document LaTeX plutôt que d'utiliser Word pour modifier la 
+%% page titre officielle de l'ÉTS !
+%% 
+%% Sentez-vous libre de modifier ce document et si vous l'améliorez, partagez-le !
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pagetitre-ets}[2022/02/21 (Xavier Provençal) Page titre pour examens à l'ÉTS]
+
+\RequirePackage{xifthen}
+\RequirePackage{enumerate}
+\RequirePackage{etoolbox}
+\RequirePackage{tikz}
+\RequirePackage{lastpage}
+\RequirePackage{mathptmx}
+\RequirePackage{amssymb}
+\usetikzlibrary{math}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Taille des boites %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{2.0}
+\newcommand{\ptets@hauteurBoiteCalculatrice}{1.4}
+\newcommand{\ptets@hauteurBoiteDocumentation}{1.4}
+\newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
+\newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{2.0}
+
+\newcommand{\setHauteurBoiteOuEcrireLesReponses}[1]{\renewcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{#1}}
+\newcommand{\setHauteurBoiteCalculatrice}[1]{\renewcommand{\ptets@hauteurBoiteCalculatrice}{#1}}
+\newcommand{\setHauteurBoiteDocumentation}[1]{\renewcommand{\ptets@hauteurBoiteDocumentation}{#1}}
+\newcommand{\setHauteurBoiteAnnexes}[1]{\renewcommand{\ptets@hauteurBoiteAnnexes}{#1}}
+\newcommand{\setHauteurBoiteDirectivesParticulieres}[1]{\renewcommand{\ptets@hauteurBoiteDirectivesParticulieres}{#1}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% Les variables %%%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\ptets@defVariables}{
+  \tikzmath{\largeurBoiteEnglobante = 20;}
+  \tikzmath{\hauteurBoiteEnglobante = 23.6;}
+  \tikzmath{\largeurBoites = \largeurBoiteEnglobante;} % largeur des boîtes
+  \tikzmath{\largeurTexte = \largeurBoites - 1.6;} % largeur du texte dans une boîte 
+  \tikzmath{\hauteurCourante = 0;} % le haut de la page est 0, positif vers le bas
+}
+\newcommand{\ptets@maTeinteDeGris}{gray!20!white}
+\newcommand{\ptets@monBullet}{\quad\raisebox{1.0pt}{{\scriptsize$\bullet$}}}
+
+\newcommand{\ptets@formerPageTitre}{
+  % Utilise les commandes suivantes :
+  %
+  %  - \ptets@boiteCentreeSansBordure{<hauteur>}{<contenu>}
+  %  - \ptets@boiteCentree{<hauteur>}{<contenu>}
+  %  - \ptets@boite{<hauteur>}{<contenu>}
+  %  - \ptets@espaceVertical{<hauteur>}
+  %
+  % Ces quatre commandes reçoivent comme premier argument la hauteur de la boite à créer. Les boîtes
+  % sont empilées une après l'autre pour créer la page titre.
+
+
+
+  %%%%%%%%%%%%%%%%%%
+  %%% Les boites %%%
+  %%%%%%%%%%%%%%%%%%
+
+  % Entête avec le logo de l'ÉTS et un avertissement.
+  \ptets@boiteCentreeSansBordure{4}{
+    \begin{tabular}{@{}p{3cm}@{\hskip 0pt}l@{}}
+      \begin{tabular}[t]{c}
+        \includegraphics[width=2cm]{./logo_ets.png} 
+      \end{tabular}
+      &
+      \begin{tabular}[t]{c}
+        \begin{minipage}{168mm}
+          \underline{\smash{\textbsc{Vous devez respecter le r\`eglement sur
+          les infractions de nature acad\'emique}}}\\
+          \textbsc{Notamment~:}
+          \bf
+          \begin{itemize}
+            \setlength\itemsep{-0.5mm}
+            \item Vous n'\^etes pas autoris\'e \`a avoir en votre possession un
+              cellulaire au cours de l'examen. Il doit imp\'erativement
+              demeurer \`a l'ext\'erieur de la salle ou \^etre d\'epos\'e \`a
+              l'endroit d\'esign\'e par le surveillant, le cas \'ech\'eant.
+            \item Toujours remettre le questionnaire à la fin de l'examen.
+            \item Respecter les consignes concernant la documentation permise.
+          \end{itemize}
+        \end{minipage}
+      \end{tabular}
+      \\
+      \\[-7pt]
+      \small BDR session 20222 &
+      \textbf{Une sanction allant jusqu'\`a l'\'echec pourrait vous \^etre impos\'ee en cas d'infraction au R\`eglement.}
+    \end{tabular}
+  }
+
+  \ptets@espaceVertical{0.2};
+
+  % Nom, Prénom, Signature, Code Permanent.
+  \ptets@boiteCentreeSansBordure{1.6}{
+    \begin{tikzpicture}
+      \draw 
+      (0,0.8)    rectangle +(9.7, 0.8) node[right] at +(0.1,0.4) {\bf Nom de l'étudiant~:}
+      (0,0)      rectangle +(9.7, 0.8) node[right] at +(0.1,0.4) {\bf Prénom~:}
+      (10.2,0.8) rectangle +(9.8, 0.8) node[right] at +(0.1,0.4) {\bf Code permanent~:}
+      (10.2,0)   rectangle +(9.8, 0.8) node[right] at +(0.1,0.4) {\bf Signature~:};
+    \end{tikzpicture}
+  }
+
+  \ptets@espaceVertical{0.5};
+
+  % Session (saison et année) et type d'examen
+  \ptets@boiteCentree{1}{
+    \Large\textbsc{{\ptets@saison} {\ptets@annee} -- {\ptets@type}}
+  }
+
+  % Signe, nom du cours, groupes, enseignants, date, heure et durée.
+  \ptets@boite{4.0}{
+    \def\arraystretch{1.6}%
+    \begin{tabular}{llp{15cm}}
+      \textbf{Sigle et titre~:} & & {\ptets@signeEtTitre}\\
+      \textbf{Groupe(s)~:}     & & {\ptets@groupes}\\
+      \textbf{Enseignant(s)~:}  & & {\ptets@enseignants}\\
+      \textbf{Date~:}  & & {\large\textbf{\ptets@date~\ptets@annee}} \\
+      \textbf{Heure~:}  & & \ptets@heure \hspace{50mm} \textbf{Dur\'ee~:}~ \ptets@duree
+    \end{tabular}
+  }
+
+  % Où écrire les réponses
+  \ptets@boite{\ptets@hauteurBoiteOuEcrireLesReponses}{
+    \begin{tabular}{p{{\largeurTexte}cm}}
+      \textbf{\'Ecrire les r\'eponses~:}~\ptets@ouEcrireLesReponses.
+      \ptets@ouEcrireLesReponsesPrecisions
+    \end{tabular}
+  }
+
+
+  \ptets@boiteCentree{0.6}{
+    \textbf{IMPORTANT}
+  }
+
+  % Nombre de pages et de questions
+  \ptets@boite{1.7}{
+    \begin{tabular}{p{{\largeurTexte}cm}}
+      Avant de commencer \`a r\'ediger votre examen, v\'erifiez la pagination
+      et la qualit\'e de l'impression de ce questionnaire qui comporte
+      \underline{~{\ptets@nbQuestions}~} questions pr\'esent\'ees sur
+      \underline{~{\ptets@nbPages}~} pages incluant la page titre et les
+      annexes, s'il y a lieu.
+    \end{tabular}
+  }
+
+  % Calculatrice
+  \ptets@boite{\ptets@hauteurBoiteCalculatrice}{
+    \begin{tabular}{p{2cm}l}
+      \textbf{Calculatrice~:}&\ptets@calculatrice
+    \end{tabular}
+  }
+
+  % Documentation
+  \ptets@boite{\ptets@hauteurBoiteDocumentation}{
+    \begin{tabular}{p{2cm}l}
+      \textbf{Documentation~:}&\ptets@documentation
+    \end{tabular}
+  }
+
+  % Annexes
+  \ptets@boite{\ptets@hauteurBoiteAnnexes}{
+    \begin{tabular}{p{2cm}l}
+      \textbf{Annexes~:} & \ptets@annexes
+    \end{tabular}
+  }
+
+  % Directives particulières
+  \ptets@boite{\ptets@hauteurBoiteDirectivesParticulieres}{
+    \begin{tabular}{ll}
+      \begin{tabular}[t]{@{}l@{}}
+        \textbf{Directives}\\
+        \textbf{particulières~:}
+      \end{tabular}
+      &
+      \begin{tabular}[t]{p{15cm}}
+        Examen en plusieurs parties~: \ptets@examenEnDeuxParties\\[1mm]
+        Matériel informatique personnel autorisé~: \ptets@materielInformatiquePersonnel\\[1mm]
+        \ptets@directivesParticulieres
+      \end{tabular}
+    \end{tabular}
+  }
+
+  % Avertissement pour les profs
+  \ptets@boiteFondGris{1.3}{
+    \begin{tabular}{p{{\largeurTexte}cm}}%
+      \textit{%
+        Les professeurs des d\'epartements peuvent se pr\'evaloir d'\^etre
+        disponibles uniquement durant la premi\`ere heure de leur examen final. Ils
+        doivent toutefois en informer leurs étudiants.
+      }
+    \end{tabular}
+  }
+
+  \ptets@espaceVertical{0.5};
+  \ptets@boiteAPoints
+
+}
+
+% Gras et petites capites, si c'est possible
+\newcommand{\textbsc}[1]{\textsc{\textbf{#1}}}
+
+%
+% Définition des variables internes.
+% 
+% Deux objectifs : 
+%
+% - Informations obligatoires : valider le fair que l'utilisateur·trice a bien spécifié toutes les
+%   informations requises.
+%
+% - Information optionnelles : affecter la valeur par défaut.
+%
+\newcommand{\setSaison}[1]{
+  \newcommand{\ptets@saison}{#1}
+}
+
+\newcommand{\setAnnee}[1]{
+  \newcommand{\ptets@annee}{#1}
+}
+
+\newcommand{\setType}[1]{
+  \newcommand{\ptets@type}{#1}
+}
+
+\newcommand{\setSigleEtTitre}[1]{
+  \newcommand{\ptets@signeEtTitre}{#1}
+}
+
+\newcommand{\setGroupes}[1]{
+  \newcommand{\ptets@groupes}{#1}
+}
+
+\newcommand{\setEnseignants}[1]{
+  \newcommand{\ptets@enseignants}{#1}
+}
+
+\newcommand{\setDate}[1]{
+  \newcommand{\ptets@date}{#1}
+}
+
+\newcommand{\setHeure}[1]{
+  \newcommand{\ptets@heure}{#1}
+}
+
+\newcommand{\setDuree}[1]{
+  \newcommand{\ptets@duree}{#1}
+}
+
+\newcommand{\setOuEcrireLesReponses}[1]{
+  \newcommand{\ptets@ouEcrireLesReponses}{#1}
+}
+
+\newcommand{\ptets@ouEcrireLesReponsesPrecisions}{}
+\newcommand{\setOuEcrireLesReponsesPrecisions}[1]{
+  \renewcommand{\ptets@ouEcrireLesReponsesPrecisions}{\\[6pt] {\small \textbf{Pr\'ecision(s)}~: #1}}
+}
+
+\newcommand{\setNbPages}[1]{
+  \newcommand{\ptets@nbPages}{#1}
+}
+
+\newcommand{\setNbQuestions}[1]{
+  \newcommand{\ptets@nbQuestions}{#1}
+}
+
+\newcommand{\ptets@calculatriceModelesPermis}{}
+\newcommand{\setCalculatriceModelesPermis}[1]{
+  \renewcommand{\ptets@calculatriceModelesPermis}{\item[] Modèle(s) permis~: #1}
+}
+\newcommand{\setCalculatrice}[1]{
+  \newcommand{\ptets@calculatrice}{
+    \begin{minipage}[t]{1.0\textwidth}
+      \begin{enumerate}[\ptets@monBullet]
+          \setlength\itemsep{-1mm}
+          #1
+          \ptets@calculatriceModelesPermis
+      \end{enumerate}
+    \end{minipage}
+  }
+}
+
+\newcommand{\setDocumentation}[1]{
+  \newcommand{\ptets@documentation}{
+    \begin{minipage}[t]{17cm}
+      \begin{enumerate}[\ptets@monBullet]
+          \setlength\itemsep{-1mm}
+          #1
+      \end{enumerate}
+    \end{minipage}
+  }
+}
+
+\newcommand{\setAnnexes}[1]{
+  \newcommand{\ptets@annexes}{
+    \begin{minipage}[t]{1.0\textwidth}
+      \begin{enumerate}[\ptets@monBullet]
+          \setlength\itemsep{-1mm}
+          #1
+      \end{enumerate}
+    \end{minipage}
+  }
+}
+
+\newcommand{\setDirectivesParticulieres}[1]{
+  \newcommand{\ptets@directivesParticulieres}{#1}
+}
+
+\newcommand{\caseVide}{$\square$}
+\newcommand{\caseCochee}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}}
+
+\newcommand{\ptets@examenEnDeuxParties}{oui \caseVide~~ non \caseCochee}
+\newcommand{\setExamenEnDeuxParties}[1]{
+  \renewcommand{\ptets@examenEnDeuxParties}{oui \caseCochee~~ non \caseVide\\\small #1}
+
+}
+
+\newcommand{\ptets@materielInformatiquePersonnel}{oui \caseVide~~ non \caseCochee}
+\newcommand{\setMaterielInformatiquePersonnel}[1]{
+  \renewcommand{\ptets@materielInformatiquePersonnel}{oui \caseCochee~~ non \caseVide~~\small #1}
+
+}
+
+
+\newcommand{\ptets@espaceVertical}[1]{%
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+\newcommand{\ptets@boiteCentree}[2]{%
+  \draw (0, \hauteurCourante) rectangle node {#2} +(\largeurBoites, #1);
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+\newcommand{\ptets@boiteCentreeSansBordure}[2]{%
+  \node at (\largeurBoites / 2, \hauteurCourante + #1 / 2) {#2};
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+\newcommand{\ptets@boite}[2]{%
+  \draw (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \node[right] at (0, \hauteurCourante + #1/2) {
+    #2
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+\newcommand{\ptets@boiteFondGris}[2]{%
+  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \node[right] at (0, \hauteurCourante + #1/2) {
+    #2
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+\newcommand{\ptets@boiteAPoints}{%
+  \tikzmath{\hauteurBoiteAPoints = 2.3;}
+  \tikzmath{\largeurCaseAPoints = \largeurBoites / 14;}
+  \tikzmath{\hauteurUneLigne = 0.5;}
+  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
+  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur (facultatif)}} +(\largeurBoites, \hauteurUneLigne);
+
+  \tikzmath{\hauteurCourante = \hauteurCourante + 0.5;}
+  \draw (\hauteurCourante + 0 * \largeurCaseAPoints, \hauteurCourante) rectangle node {Q1} +(\largeurCaseAPoints, \hauteurUneLigne);
+  \foreach \i in {0, ..., 6} {
+    \tikzmath{\x = 2*\i*\largeurCaseAPoints;}
+    \tikzmath{\dx = \largeurCaseAPoints;}
+    \tikzmath{\y = \hauteurCourante;}
+    \tikzmath{\dy = \hauteurUneLigne;}
+    \tikzmath{\q1 = \i+1;}
+    \tikzmath{\q2 = \i+8;}
+    \draw (\x, \y) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q1}~:}; 
+    \draw (\x, \y+\dy) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q2}~:}; 
+    \draw (\x+\dx, \y)     rectangle node{/~} +(\dx, \dy);
+    \draw (\x+\dx, \y+\dy) rectangle node{/~} +(\dx, \dy);
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
+  \draw (0, \hauteurCourante) rectangle  +(5*\largeurCaseAPoints, 0.8);
+  \node[left] at (5 * \largeurCaseAPoints, \hauteurCourante + 0.4) {\textsc{Total~:}};
+  \draw (5*\largeurCaseAPoints, \hauteurCourante) rectangle node{\Large /} +(2*\largeurCaseAPoints, 0.8);
+  \draw (7*\largeurCaseAPoints, \hauteurCourante) rectangle node{
+    Signature~:~\underline{\hspace{8.0cm}}
+  } +(7*\largeurCaseAPoints, 0.8);
+}
+
+
+
+\newcommand{\pagetitreETS}{
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%                           %%%
+  %%% Validation des paramètres %%%
+  %%%                           %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ifdef{\ptets@saison}
+  {}{
+    \PackageError{pagetitre-ets}{Saison non spécifiée. Utilisez la commande `setSaison` avec un argument parmi : Hiver, Été, Automne}{}
+  }
+
+  \ifdef{\ptets@annee}
+  {}{
+    \PackageError{pagetitre-ets}{Année non spécifiée. Utilisez la commande `setAnnee` avec l'année en argument}{}
+  }
+
+  \ifdef{\ptets@type}
+  {}{
+    \PackageError{pagetitre-ets}{Type d'examen non spécifié. Utilisez la commande `setType` avec un argument parmi : EXAMEN FINAL, EXAMEN FINAL DIFFÉRÉ, EXAMEN INTRA, EXAMEN INTRA DIFFÉRÉ}{}
+  }
+
+  \ifdef{\ptets@signeEtTitre}
+  {}{
+    \PackageError{pagetitre-ets}{Signe et titre du cours non spécifiés. Utilisez la commande `setSignetEtTitre` avec comme argument le signet et le titre}{}
+  }
+
+  \ifdef{\ptets@groupes}
+  {}{
+    \PackageError{pagetitre-ets}{Groupe(s) non spécifié(s). Utilisez la commande `setGroupes` avec comme arguement le(s) groupe(s) conecernés}{}
+  }
+
+  \ifdef{\ptets@enseignants}
+  {}{
+    \PackageError{pagetitre-ets}{Enseignant(s) non spécifié(s). Utilisez la commande `setEnseignants` avec comme arguement le(s) enseignant(s) concernés}{}
+  }
+
+  \ifdef{\ptets@date}
+  {}{
+    \PackageError{pagetitre-ets}{Date non spécifiée. Utilisez la commande `setDate` avec comme argument la date de l'examen}{}
+  }
+
+  \ifdef{\ptets@heure}
+  {}{
+    \PackageError{pagetitre-ets}{Heure non spécifiée. Utilisez la commande `setHeure` avec comme argument l'heure du début de l'examen}{}
+  }
+
+  \ifdef{\ptets@duree}
+  {}{
+    \PackageError{pagetitre-ets}{Duree non spécifiée. Utilisez la commande `setDuree` avec comme argument la durée de l'examen}{}
+  }
+
+  \ifdef{\ptets@ouEcrireLesReponses}
+  {}{
+    \PackageError{pagetitre-ets}{Endroit où répondre aux question non spécifié. Utilisez la commande `setOuEcrireLesReponses` avec comme argument un valeur parmi : dans le cahier d'examen standard ÉTS, sur ce questionnaire, en laboratoire dans ENA Quiz.}{}
+  }
+
+  \ifdef{\ptets@nbPages}
+  {}{
+    %\PackageError{pagetitre-ets}{Nombre de pages non spécifiée. Utilisez la commande `setNbPages` avec comme argument le nombre de pages de l'énoncé de l'examen}{}
+    \newcommand{\ptets@nbPages}{\pageref{LastPage}}
+  }
+
+  \ifdef{\ptets@nbQuestions}
+  {}{
+    \PackageError{pagetitre-ets}{Nombre de questions non spécifiée. Utilisez la commande `setNbQuestions` avec comme argument le nombre de page de l'examen}{}
+  }
+
+  \ifdef{\ptets@calculatrice}
+  {}{
+    \PackageError{pagetitre-ets}{Utilisation de la calculatrice non spécifiée. Utilisez la commande `setCalculatrice` avec comme argument une valeur parmi : interdite, autorisée}{}
+  }
+
+  \ifdef{\ptets@documentation}
+  {}{
+    \PackageError{pagetitre-ets}{Documentation permise non spécifiée. Utilisez la commande `setDocumentation` avec comme argument la documetation permise, où chaque élément début par `\\item`}{}
+  }
+
+  \ifdef{\ptets@annexes}
+  {}{
+    \PackageError{pagetitre-ets}{Annexes non spécifiée. Utilisez la commande `setAnnexes` avec comme argument soit `aucune`, soit la liste des annexes}{}
+  }
+
+  \ifdef{\ptets@directivesParticulieres}
+  {}{
+    \PackageError{pagetitre-ets}{Directives particulières non spécifiée. Utilisez la commande `setDirectiveParticulieres` avec comme argument soit rien, soit la liste des directives particulières}{}
+  }
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%                        %%%
+  %%% Début de la page titre %%%
+  %%%                        %%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \thispagestyle{empty}
+  % Éviter une erreur de compil si utilisé avec \usepackage[french]{babel}
+  \ifdef{\NoAutoSpacing}{
+    \NoAutoSpacing
+  }{}
+  \begin{tikzpicture}[remember picture, overlay]
+    \ptets@defVariables
+    \draw (current page.center) node {
+      \begin{minipage}{20cm}
+        \fontsize{10}{12}
+        \begin{center}
+          \begin{tikzpicture}[xscale=1, yscale=-1]
+            % La boite englobante
+            % Sa fonction est de réserver l'espace nécessaire pour tous les éléments de la page
+            % titre. Comme tout est centré, cela permet d'éviter des mouvement verticaux des
+            % éléments lors des compilations.
+            \draw[opacity=0.0] (0,0) rectangle ++(\largeurBoites, \hauteurBoiteEnglobante);
+            \ptets@formerPageTitre
+          \end{tikzpicture}
+        \end{center}
+      \end{minipage}
+    };
+  \end{tikzpicture}
+  \newpage
+}
+
