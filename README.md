@@ -7,6 +7,10 @@ La [page titre officielle](https://www.etsmtl.ca/docs/personnel-enseignant-exame
 
 Le but de ce projet est d'offrir une alternative en LaTeX.
 
+<a href="./images/exemple_simple.png"><img src="./images/exemple_simple.png" width="300"/></a>
+<a href="./images/exemple_complexe.png"><img src="./images/exemple_complexe.png" width="300"/></a>
+
+
 ## Utilisation
 
 1. Ajouter les fichiers suivants à votre projet :
@@ -53,7 +57,7 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 %%  Informations générales
 \setSigleEtTitre{MAT101 -- Calcul numérique}
 \setGroupes{01}
-\setEnseignants{John Dow}
+\setEnseignants{Xavier Provençal}
 %
 %
 %%  Format de l'examen, sélectionner
