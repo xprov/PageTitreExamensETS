@@ -132,7 +132,7 @@
   % Où écrire les réponses
   \ptets@boite{\ptets@hauteurBoiteOuEcrireLesReponses}{
     \begin{tabular}{p{{\largeurTexte}cm}}
-      \textbf{\'Ecrire les r\'eponses~:}~\ptets@ouEcrireLesReponses.
+      \textbf{\'Ecrire les r\'eponses~:}~\ptets@ouEcrireLesReponses
       \ptets@ouEcrireLesReponsesPrecisions
     \end{tabular}
   }
@@ -183,7 +183,7 @@
       \end{tabular}
       &
       \begin{tabular}[t]{p{15cm}}
-        Examen en plusieurs parties~: \ptets@examenEnDeuxParties\\[1mm]
+        Examen en plusieurs parties~: \ptets@examenEnPlusieursParties\\[1mm]
         Matériel informatique personnel autorisé~: \ptets@materielInformatiquePersonnel\\[1mm]
         \ptets@directivesParticulieres
       \end{tabular}
@@ -310,16 +310,23 @@
   }
 }
 
+\newcommand{\ptets@directivesParticulieres}{}
 \newcommand{\setDirectivesParticulieres}[1]{
-  \newcommand{\ptets@directivesParticulieres}{#1}
+  \renewcommand{\ptets@directivesParticulieres}{#1}
+}
+
+
+\newcommand{\ptets@examenEnPlusieursPartiesPrecisions}{}
+\newcommand{\setExamenEnPlusieursPartiesPrecisions}[1]{
+  \renewcommand{\ptets@examenEnPlusieursPartiesPrecisions}{#1}
 }
 
 \newcommand{\caseVide}{$\square$}
 \newcommand{\caseCochee}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}}
 
-\newcommand{\ptets@examenEnDeuxParties}{oui \caseVide~~ non \caseCochee}
-\newcommand{\setExamenEnDeuxParties}[1]{
-  \renewcommand{\ptets@examenEnDeuxParties}{oui \caseCochee~~ non \caseVide\\\small #1}
+\newcommand{\ptets@examenEnPlusieursParties}{oui \caseVide~~ non \caseCochee}
+\newcommand{\setExamenEnPlusieursParties}[1]{
+  \renewcommand{\ptets@examenEnPlusieursParties}{oui \caseCochee~~ non \caseVide ~~~ nombre de parties~: #1.\\\small \ptets@examenEnPlusieursPartiesPrecisions}
 
 }
 
@@ -477,10 +484,11 @@
     \PackageError{pagetitre-ets}{Annexes non spécifiée. Utilisez la commande `setAnnexes` avec comme argument soit `aucune`, soit la liste des annexes}{}
   }
 
-  \ifdef{\ptets@directivesParticulieres}
-  {}{
-    \PackageError{pagetitre-ets}{Directives particulières non spécifiée. Utilisez la commande `setDirectiveParticulieres` avec comme argument soit rien, soit la liste des directives particulières}{}
-  }
+  % bloc commenté car l'appel à cette commande est facultative
+  %\ifdef{\ptets@directivesParticulieres}
+  %{}{
+  %  \PackageError{pagetitre-ets}{Directives particulières non spécifiée. Utilisez la commande `setDirectiveParticulieres` avec comme argument soit rien, soit la liste des directives particulières}{}
+  %}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

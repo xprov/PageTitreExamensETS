@@ -1,0 +1,5 @@
+*.aux
+*.log
+examenBidonAvecPageTitre.pdf
+*.synctex.gz
+*.latexmain
