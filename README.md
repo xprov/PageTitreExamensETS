@@ -133,8 +133,6 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 %\setExamenEnPlusieursParties{2}
 
 %% Au besoin, donnez des explications sur le déroulement de l'examen en deux parties.
-%%
-%% RQ
 %\setExamenEnPlusieursPartiesPrecisions{}
 %
 %% Exemple :
