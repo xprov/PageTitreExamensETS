@@ -61,18 +61,18 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 
 
 %%%  Quand l'examen aura-t-il lieu ?
-\setAnnee{2022}
+\setAnnee{1900}
 \setSaison{Été} % Choisir parmi : Hiver, Été, Automne
-\setDate{5 août} % Jour et mois (l'année est déjà spécifiée avec \setAnnee)
+\setDate{8 août} % Jour et mois (l'année est déjà spécifiée avec \setAnnee)
 \setHeure{9h00} % Début de l'examen
 \setDuree{3h}  % Je pense que c'est évident.
 
 
 %%%  Informations générales
-\setSigleEtTitre{MAT101 -- Calcul numérique}
-\setGroupes{01}
+\setSigleEtTitre{MAT101 -- Éléments de mathématiques}
+\setGroupes{19 et 94}
 \setEnseignants{
-  Xavier Provençal
+  Donald Knuth et Leslie Lamport
 }
 
 
