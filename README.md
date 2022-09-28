@@ -25,6 +25,7 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 3. Configurer la page titre. Avant la ligne `\begin{document}`, copiez le bloc
    suivant et configurez-le selon vos besoin.
 ```latex
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% PAGE TITRE (début) %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,7 +47,7 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 
 %%%  Sélectionner le type d'examen
 % Note : si l'examen est en deux parties, chaque partie doit avoir sa page titre.
-\setType{EXAMEN INTRA}
+\setType{Mini-test $\#$1}
 %\setType{EXAMEN INTRA -- Partie 1 de 2}
 %\setType{EXAMEN INTRA -- Partie 2 de 2}
 %\setType{EXAMEN INTRA DIFFÉRÉ}
@@ -61,18 +62,18 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 
 
 %%%  Quand l'examen aura-t-il lieu ?
-\setAnnee{1900}
-\setSaison{Été} % Choisir parmi : Hiver, Été, Automne
-\setDate{8 août} % Jour et mois (l'année est déjà spécifiée avec \setAnnee)
-\setHeure{9h00} % Début de l'examen
-\setDuree{3h}  % Je pense que c'est évident.
+\setAnnee{2022}
+\setSaison{Automne} % Choisir parmi : Hiver, Été, Automne
+\setDate{6 octobre} % Jour et mois (l'année est déjà spécifiée avec \setAnnee)
+\setHeure{13h30} % Début de l'examen
+\setDuree{1h00}  % Je pense que c'est évident.
 
 
 %%%  Informations générales
-\setSigleEtTitre{MAT101 -- Éléments de mathématiques}
-\setGroupes{19 et 94}
+\setSigleEtTitre{MAT472 -- Algèbre linéaire et géométrie de l'espace}
+\setGroupes{01}
 \setEnseignants{
-  Donald Knuth et Leslie Lamport
+  Xavier Provençal
 }
 
 
@@ -87,23 +88,28 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 
 
 % Nombre de question et nombre de pages. Si l'examen est sur ENAQuiz, il faut
-\setNbQuestions{2}
+\setNbQuestions{4}
 %\setNbPages{5} % optionnel, si non spécifié alors la valeur `\pageref{LastPage}` est utilisée
 
 
-%% Calculatrice, choisissez la ligne.
-\setCalculatrice{
-  \item interdite
-  %\item autorisée, aucune application ou logiciel
-  %\item autorisée, tous les supports
-}
+%% Calculatrice, indiquee si elle est autorisee ou interdite (obligatoire)
+%\setCalculatriceAutorisee
+\setCalculatriceInterdite
+
+%% Si la calculatrice est autorisée, indiquée le type (une case sera cochée)
+%\setTypeCalculatriceTous
+%\setTypeCalculatriceProgrammable
+%\setTypeCalculatriceNonProgrammable
+%\setTypeCalculatriceLogiciel
+
 %% Indiquez le(s) modèle(s) de calculatrice
 %\setCalculatriceModelesPermis{``TI-nspire CX CAS'' et ``TI-nspire CX II CAS''.}
 
 %% Documentation, choisissez au moins une options et complétez si nécessaire.
 %% La commande `\item` n'est pas optionnelle.
 \setDocumentation{
-  \item aucune
+\item Une feuille de note personnelles (format lettre, recto-verso, manuscrite ou imprimée).
+
   %\item feuille(s) de note(s), précisez le format et le nombre de pages
   %\item toutes documentation papier
   %\item documentation électronique, préciser :
@@ -121,7 +127,7 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 %% Annexes, choississez une ligne et complétez.
 %% La commande `\item` n'est pas optionnelle.
 \setAnnexes{
-  \item aucune
+  \item Aucune
   %\item oui, préciser le titre et spécifiez les pages.
 }
 
@@ -129,27 +135,33 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 %% appeler la commande avec un paramètre vide.
 %\setDirectivesParticulieres{}
 
-%% Décommentez si l'examen est en plusieurs parties. Indiquez le nombre de parties en paramètre.
-%\setExamenEnPlusieursParties{2}
+%% Décommentez si l'examen est en plusieurs parties. Indiquez les directives ici.
+%\setExamenEnPlusieursParties{Deux parties : calculatrice est interdite pour la première partie, mais autorisée pour la deuxième. La durée maximale de la première partie : 45 minutes.}
 
-%% Au besoin, donnez des explications sur le déroulement de l'examen en deux parties.
-%\setExamenEnPlusieursPartiesPrecisions{}
-%
-%% Exemple :
-%
-%\setExamenEnPlusieursPartiesPrecisions{La durée maximale accordée pour la première partie est de 50\% de la durée totale, soit 1h30 pour une personne étudiante ayant droit à 3h00.}
 
-%% Commentez si aucun matériel informatique n'est parmis.
-%% Décommentez si du matériel informatique personnel est autorisé et documentez.
-%\setMaterielInformatiquePersonnel{Précisez ici.}
+%% Matériel informatique
+%\setMaterielInformatiqueAutorise
+\setMaterielInformatiqueInterdit
+
+%% Si du matériel informatique est autorisée, il faut obligatoirement préciser de quoi il s'agit
+%\setTypeMaterielInformatiqueTous
+%\setTypeMaterielInformatiqueOrdinateurPortable
+%\setTypeMaterielInformatiqueTablette
+%\setTypeMaterielInformatiqueCleUSB
+%\setTypeMaterielInformatiqueAutre{Précisions ici}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% PAGE TITRE (fin) %%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 ```
 
 
+4. TODO
+
+Bug : la taille du texte de la page titre est affecté par le paramètre de taille de
+la commande `\documentclass`.
 
 
 
