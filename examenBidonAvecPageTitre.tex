@@ -69,12 +69,16 @@
 %\setNbPages{5} % optionnel, si non spécifié alors la valeur `\pageref{LastPage}` est utilisée
 
 
-%% Calculatrice, choisissez la ligne.
-\setCalculatrice{
-  \item interdite
-  %\item autorisée, aucune application ou logiciel
-  %\item autorisée, tous les supports
-}
+%% Calculatrice, indiquee si elle est autorisee ou interdite (obligatoire)
+%\setCalculatriceAutorisee
+\setCalculatriceInterdite
+
+%% Si la calculatrice est autorisée, indiquée le type (une case sera cochée)
+%\setTypeCalculatriceTous
+\setTypeCalculatriceProgrammable
+\setTypeCalculatriceNonProgrammable
+%\setTypeCalculatriceLogiciel
+
 %% Indiquez le(s) modèle(s) de calculatrice
 %\setCalculatriceModelesPermis{``TI-nspire CX CAS'' et ``TI-nspire CX II CAS''.}
 
@@ -107,21 +111,20 @@
 %% appeler la commande avec un paramètre vide.
 %\setDirectivesParticulieres{}
 
-%% Décommentez si l'examen est en plusieurs parties. Indiquez le nombre de parties en paramètre.
-%\setExamenEnPlusieursParties{2}
+%% Décommentez si l'examen est en plusieurs parties. Indiquez les directives ici.
+%\setExamenEnPlusieursParties{Deux parties : calculatrice est interdite pour la première partie, mais autorisée pour la deuxième. La durée maximale de la première partie : 45 minutes.}
 
-%% Au besoin, donnez des explications sur le déroulement de l'examen en deux parties.
-%%
-%% RQ
-%\setExamenEnPlusieursPartiesPrecisions{}
-%
-%% Exemple :
-%
-%\setExamenEnPlusieursPartiesPrecisions{La durée maximale accordée pour la première partie est de 50\% de la durée totale, soit 1h30 pour une personne étudiante ayant droit à 3h00.}
 
-%% Commentez si aucun matériel informatique n'est parmis.
-%% Décommentez si du matériel informatique personnel est autorisé et documentez.
-%\setMaterielInformatiquePersonnel{Précisez ici.}
+%% Matériel informatique
+%\setMaterielInformatiqueAutorise
+\setMaterielInformatiqueInterdit
+
+%% Si du matériel informatique est autorisée, il faut obligatoirement préciser de quoi il s'agit
+%\setTypeMaterielInformatiqueTous
+%\setTypeMaterielInformatiqueOrdinateurPortable
+%\setTypeMaterielInformatiqueTablette
+%\setTypeMaterielInformatiqueCleUSB
+%\setTypeMaterielInformatiqueAutre{Précisions ici}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,4 +141,5 @@
 
 
 \end{document}
+
 

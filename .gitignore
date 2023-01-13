@@ -3,3 +3,4 @@
 examenBidonAvecPageTitre.pdf
 *.synctex.gz
 *.latexmain
+makefile
