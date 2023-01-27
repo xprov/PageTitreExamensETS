@@ -16,28 +16,50 @@
 \RequirePackage{amssymb}
 \usetikzlibrary{math}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Taille des boites %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{2.0}
-\newcommand{\ptets@hauteurBoiteCalculatrice}{2.1}
-\newcommand{\ptets@hauteurBoiteDocumentation}{1.4}
-\newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
-\newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{3.2}
+%%%
+% Présentation du package
+%
+% Note : Toutes les commandes internes à ce package sont préfixeée par `\ptets@`.
+%
+% Principe général : 
+%
+%     Dans le préambule de son document, l'utilisateur configure la page-titre
+%     avec les commandes `\setAnnee`, `\setType`, `\setEnseignants`, etc.
+%     Chacune de ces commandes a pour effet de définir ou redéfinir une
+%     commande interne. 
+%
+%     S'il s'agit d'une commande obligatoire (par exemple : `\setDate`) alors
+%     une validation est effectue et si la commande internet n'a pas été
+%     définie, alors une erreur est soulevée avec un message d'erreur
+%     approprié.
 
-\newcommand{\setHauteurBoiteOuEcrireLesReponses}[1]{\renewcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{#1}}
-\newcommand{\setHauteurBoiteCalculatrice}[1]{\renewcommand{\ptets@hauteurBoiteCalculatrice}{#1}}
-\newcommand{\setHauteurBoiteDocumentation}[1]{\renewcommand{\ptets@hauteurBoiteDocumentation}{#1}}
-\newcommand{\setHauteurBoiteAnnexes}[1]{\renewcommand{\ptets@hauteurBoiteAnnexes}{#1}}
-\newcommand{\setHauteurBoiteDirectivesParticulieres}[1]{\renewcommand{\ptets@hauteurBoiteDirectivesParticulieres}{#1}}
+%     Pour les commandes optionnelles (par exemple :
+%     `\setHauteurBoiteOuEcrireLesReponses`) la commande interne est déjà
+%     définie avec une valeur par défault et la commande utilisateur redéfinie
+%     la commande interne.
+%
+%
+% Structure de ce fichier :
+%   
+%   1. Constantes
+%   2. Les commandes de configuration
+%   3. Les commandes internes
+%     3.1 Les macros 
+%     3.2 Validation de la configuration l'utilisateur
+%     3.3 Mise en forme de la page-titre
+%   4. La commande qui construit la page-titre
+%   
+%
+%
+%
+%
 
 
 
 %%%%%%%%%%%%%%%%%%%%%
-%%% Les variables %%%
+%%% 1. Constantes %%%
 %%%%%%%%%%%%%%%%%%%%%
-
 
 \newcommand{\ptets@defVariables}{
   \tikzmath{\largeurBoiteEnglobante = 20;}
@@ -46,9 +68,388 @@
   \tikzmath{\largeurTexte = \largeurBoites - 1.6;} % largeur du texte dans une boîte 
   \tikzmath{\hauteurCourante = 0;} % le haut de la page est 0, positif vers le bas
 }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 2. Les commandes de configuration %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Il s'Agit des commandes utilisées par l'utisateur pour configurer la page-titre.
+%
+
+
+
+% Information générales : obligatoire
+\newcommand{\setSaison}[1]{\newcommand{\ptets@saison}{#1}}
+\newcommand{\setAnnee}[1]{\newcommand{\ptets@annee}{#1}}
+\newcommand{\setType}[1]{\newcommand{\ptets@type}{#1}}
+\newcommand{\setSigleEtTitre}[1]{\newcommand{\ptets@signeEtTitre}{#1}}
+\newcommand{\setGroupes}[1]{\newcommand{\ptets@groupes}{#1}}
+\newcommand{\setEnseignants}[1]{\newcommand{\ptets@enseignants}{#1}}
+\newcommand{\setDate}[1]{\newcommand{\ptets@date}{#1}}
+\newcommand{\setHeure}[1]{\newcommand{\ptets@heure}{#1}}
+\newcommand{\setDuree}[1]{\newcommand{\ptets@duree}{#1}}
+\newcommand{\setOuEcrireLesReponses}[1]{\newcommand{\ptets@ouEcrireLesReponses}{#1}}
+
+
+
+% Hauteur des boites : optionnel
+% Valeurs par défaut
+\newcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{2.0}
+\newcommand{\ptets@hauteurBoiteCalculatrice}{2.1}
+\newcommand{\ptets@hauteurBoiteDocumentation}{1.4}
+\newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
+\newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{3.2}
+% Redéfinitions par l'utilisateur 
+\newcommand{\setHauteurBoiteOuEcrireLesReponses}[1]{\renewcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{#1}}
+\newcommand{\setHauteurBoiteCalculatrice}[1]{\renewcommand{\ptets@hauteurBoiteCalculatrice}{#1}}
+\newcommand{\setHauteurBoiteDocumentation}[1]{\renewcommand{\ptets@hauteurBoiteDocumentation}{#1}}
+\newcommand{\setHauteurBoiteAnnexes}[1]{\renewcommand{\ptets@hauteurBoiteAnnexes}{#1}}
+\newcommand{\setHauteurBoiteDirectivesParticulieres}[1]{\renewcommand{\ptets@hauteurBoiteDirectivesParticulieres}{#1}}
+
+
+% Précisions sur l'endroit où écrire les réponses : optionnel
+\newcommand{\ptets@ouEcrireLesReponsesPrecisions}{}
+\newcommand{\setOuEcrireLesReponsesPrecisions}[1]{
+  \renewcommand{\ptets@ouEcrireLesReponsesPrecisions}{\\[6pt] {\fontsize{10}{12}\selectfont \textbf{Pr\'ecision(s)}~: #1}}
+}
+
+
+% Nombre de pages : optionnel. Si non spécifié, on utilise le package `lastpage`.
+\newcommand{\ptets@nbPages}{\pageref{LastPage}}
+\newcommand{\setNbPages}[1]{\renewcommand{\ptets@nbPages}{#1}}
+
+
+% Nombre de questions : obligatoire
+\newcommand{\setNbQuestions}[1]{\newcommand{\ptets@nbQuestions}{#1}}
+
+% Calculatrice.
+% L'utilisateur doit obligatoirement utiliser une des deux commandes : 
+% `\setCalculatriceAutorisee` ou `\setCalculatriceInterdite`.
+% Dans les deux cas, la commande interne `\ptets@calculatriceAutoriseeOuNon`
+% est définie ce qui permet de valider le fait que l'utilisateur a bien indiqué
+% son choix. Si la commande n'a pas été définie, alors une erreur sera levée.
+\newcommand{\ptets@BoiteCalculatriceAutorisee}{\ptets@caseVide}
+\newcommand{\ptets@BoiteCalculatriceInterdite}{\ptets@caseVide}
+\newcommand{\ptets@BoiteTypeCalculatriceTous}{\ptets@caseVide}
+\newcommand{\ptets@BoiteTypeCalculatriceProgrammable}{\ptets@caseVide}
+\newcommand{\ptets@BoiteTypeCalculatriceNonProgrammable}{\ptets@caseVide}
+\newcommand{\ptets@BoiteTypeCalculatriceLogiciel}{\ptets@caseVide}
+
+\newcommand{\setCalculatriceAutorisee}{
+  \newcommand{\ptets@calculatriceAutoriseeOuNon}{}
+  \renewcommand{\ptets@BoiteCalculatriceAutorisee}{\ptets@caseCochee}
+}
+\newcommand{\setCalculatriceInterdite}{
+  \newcommand{\ptets@calculatriceAutoriseeOuNon}{}
+  \renewcommand{\ptets@BoiteCalculatriceInterdite}{\ptets@caseCochee}
+}
+
+\newcommand{\setTypeCalculatriceTous}{
+  \renewcommand{\ptets@BoiteTypeCalculatriceTous}{\ptets@caseCochee}
+}
+\newcommand{\setTypeCalculatriceProgrammable}{
+  \renewcommand{\ptets@BoiteTypeCalculatriceProgrammable}{\ptets@caseCochee}
+}
+\newcommand{\setTypeCalculatriceNonProgrammable}{
+  \renewcommand{\ptets@BoiteTypeCalculatriceNonProgrammable}{\ptets@caseCochee}
+}
+\newcommand{\setTypeCalculatriceLogiciel}{
+  \renewcommand{\ptets@BoiteTypeCalculatriceLogiciel}{\ptets@caseCochee}
+}
+\newcommand{\ptets@calculatriceModelesPermis}{}
+\newcommand{\setCalculatriceModelesPermis}[1]{
+  \renewcommand{\ptets@calculatriceModelesPermis}{\textbf{Modèle(s) permis~:} #1}
+}
+
+
+
+% Documentation autorisée : obligatoire
+\newcommand{\setDocumentation}[1]{
+  \newcommand{\ptets@documentation}{
+    \begin{minipage}[t]{17cm}
+      \begin{enumerate}[\ptets@monBullet]
+          \setlength\itemsep{-1mm}
+          #1
+      \end{enumerate}
+    \end{minipage}
+  }
+}
+
+
+% Annexes : obligaroire
+\newcommand{\setAnnexes}[1]{
+  \newcommand{\ptets@annexes}{
+    \begin{minipage}[t]{1.0\textwidth}
+      \begin{enumerate}[\ptets@monBullet]
+          \setlength\itemsep{-1mm}
+          #1
+      \end{enumerate}
+    \end{minipage}
+  }
+}
+
+
+% Examen en deux parties : optionnel.
+\newcommand{\ptets@examenEnPlusieursParties}{\ptets@caseVide}
+\newcommand{\setExamenEnPlusieursParties}[1]{
+  \renewcommand{\ptets@examenEnPlusieursParties}{\ptets@caseCochee ~~~ \textbf{#1}}
+}
+
+% Précisions sur les examens en deux parties : optionnel
+\newcommand{\ptets@examenEnPlusieursPartiesPrecisions}{}
+\newcommand{\setExamenEnPlusieursPartiesPrecisions}[1]{
+  \renewcommand{\ptets@examenEnPlusieursPartiesPrecisions}{#1}
+}
+
+
+% Matériel informatique autorisé : l'utilisateur doit spécifier au moins une
+% des deux commandes. Le mécanisme est le même que pour la calculatrice.
+\newcommand{\setMaterielInformatiqueAutorise}{
+  \newcommand{\ptets@MaterielInformatiqueAutoriseeOuNon}{}
+  \newcommand{\ptets@BoiteMaterielInformatiqueOui}{\ptets@caseCochee}
+  \newcommand{\ptets@BoiteMaterielInformatiqueNon}{\ptets@caseVide}
+}
+\newcommand{\setMaterielInformatiqueInterdit}{
+  \newcommand{\ptets@MaterielInformatiqueAutoriseeOuNon}{}
+  \newcommand{\ptets@BoiteMaterielInformatiqueOui}{\ptets@caseVide}
+  \newcommand{\ptets@BoiteMaterielInformatiqueNon}{\ptets@caseCochee}
+}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseVide ~}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\ptets@caseVide ~}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueTablette}{\ptets@caseVide ~}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueCleUSB}{\ptets@caseVide ~}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{\ptets@caseVide ~Autre}
+
+\newcommand{\setTypeMaterielInformatiqueTous}{
+  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseCochee}
+}
+\newcommand{\setTypeMaterielInformatiqueOrdinateurPortable}{
+  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\ptets@caseCochee}
+}
+\newcommand{\setTypeMaterielInformatiqueTablette}{
+  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueTablette}{\ptets@caseCochee}
+}
+\newcommand{\setTypeMaterielInformatiqueCleUSB}{
+  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueCleUSB}{\ptets@caseCochee}
+}
+\newcommand{\setTypeMaterielInformatiqueAutre}[1]{
+  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{\ptets@caseCochee Autre ~~~ \textbf{#1}}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3. Commandes internes %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%% 3.1 Les macros %%%
+%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\ptets@maTeinteDeGris}{gray!20!white}
 \newcommand{\ptets@monBullet}{\quad\raisebox{1.0pt}{{\scriptsize$\bullet$}}}
 
+
+% Gras et petites capitales, si c'est possible
+\newcommand{\ptets@textbsc}[1]{\textsc{\textbf{#1}}}
+
+% Case cochée ou non.
+\newcommand{\ptets@caseVide}{$\square$}
+\newcommand{\ptets@caseCochee}{$\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}$}
+
+
+% Macros utilisée pour positionner les éléments dans la page.
+\newcommand{\ptets@espaceVertical}[1]{%
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+\newcommand{\ptets@boiteCentree}[2]{%
+  \draw (0, \hauteurCourante) rectangle node {#2} +(\largeurBoites, #1);
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+\newcommand{\ptets@boiteCentreeSansBordure}[2]{%
+  \node at (\largeurBoites / 2, \hauteurCourante + #1 / 2) {#2};
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+\newcommand{\ptets@boite}[2]{%
+  \draw (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \node[right] at (0, \hauteurCourante + #1/2) {
+    #2
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+\newcommand{\ptets@boiteFondGris}[2]{%
+  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \node[right] at (0, \hauteurCourante + #1/2) {
+    #2
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3.2 Validation de la configuration l'utilisateur %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ptets@validerParametres}{
+  \ifdef{\ptets@saison}
+  {}{
+    \PackageError{pagetitre-ets}{Saison non spécifiée. Utilisez la commande `setSaison` avec un argument parmi : Hiver, Été, Automne}{}
+  }
+
+  \ifdef{\ptets@annee}
+  {}{
+    \PackageError{pagetitre-ets}{Année non spécifiée. Utilisez la commande `setAnnee` avec l'année en argument}{}
+  }
+
+  \ifdef{\ptets@type}
+  {}{
+    \PackageError{pagetitre-ets}{Type d'examen non spécifié. Utilisez la commande `setType` avec un argument parmi : EXAMEN FINAL, EXAMEN FINAL DIFFÉRÉ, EXAMEN INTRA, EXAMEN INTRA DIFFÉRÉ}{}
+  }
+
+  \ifdef{\ptets@signeEtTitre}
+  {}{
+    \PackageError{pagetitre-ets}{Signe et titre du cours non spécifiés. Utilisez la commande `setSignetEtTitre` avec comme argument le signet et le titre}{}
+  }
+
+  \ifdef{\ptets@groupes}
+  {}{
+    \PackageError{pagetitre-ets}{Groupe(s) non spécifié(s). Utilisez la commande `setGroupes` avec comme arguement le(s) groupe(s) conecernés}{}
+  }
+
+  \ifdef{\ptets@enseignants}
+  {}{
+    \PackageError{pagetitre-ets}{Enseignant(s) non spécifié(s). Utilisez la commande `setEnseignants` avec comme arguement le(s) enseignant(s) concernés}{}
+  }
+
+  \ifdef{\ptets@date}
+  {}{
+    \PackageError{pagetitre-ets}{Date non spécifiée. Utilisez la commande `setDate` avec comme argument la date de l'examen}{}
+  }
+
+  \ifdef{\ptets@heure}
+  {}{
+    \PackageError{pagetitre-ets}{Heure non spécifiée. Utilisez la commande `setHeure` avec comme argument l'heure du début de l'examen}{}
+  }
+
+  \ifdef{\ptets@duree}
+  {}{
+    \PackageError{pagetitre-ets}{Duree non spécifiée. Utilisez la commande `setDuree` avec comme argument la durée de l'examen}{}
+  }
+
+  \ifdef{\ptets@ouEcrireLesReponses}
+  {}{
+    \PackageError{pagetitre-ets}{Endroit où répondre aux question non spécifié. Utilisez la commande `setOuEcrireLesReponses` avec comme argument un valeur parmi : dans le cahier d'examen standard ÉTS, sur ce questionnaire, en laboratoire dans ENA Quiz.}{}
+  }
+
+  \ifdef{\ptets@nbPages}
+  {}{
+    %\PackageError{pagetitre-ets}{Nombre de pages non spécifiée. Utilisez la commande `setNbPages` avec comme argument le nombre de pages de l'énoncé de l'examen}{}
+    \newcommand{\ptets@nbPages}{\pageref{LastPage}}
+  }
+
+  \ifdef{\ptets@nbQuestions}
+  {}{
+    \PackageError{pagetitre-ets}{Nombre de questions non spécifiée. Utilisez la commande `setNbQuestions` avec comme argument le nombre de page de l'examen}{}
+  }
+
+  \ifdef{\ptets@calculatriceAutoriseeOuNon}
+  {}{
+    \PackageError{pagetitre-ets}{Utilisation de la calculatrice non spécifiée. Utilisez la commande `setCalculatrice` avec comme argument une valeur parmi : interdite, autorisée}{}
+  }
+
+  \ifdef{\ptets@documentation}
+  {}{
+  \PackageError{pagetitre-ets}{Documentation permise non spécifiée. Utilisez la commande `setDocumentation` avec comme argument la documetation permise, où chaque élément début par `\\item`}{}
+  }
+
+  \ifdef{\ptets@annexes}
+  {}{
+    \PackageError{pagetitre-ets}{Annexes non spécifiée. Utilisez la commande `setAnnexes` avec comme argument soit `aucune`, soit la liste des annexes}{}
+  }
+
+  \ifdef{\ptets@MaterielInformatiqueAutoriseeOuNon}
+  {}{
+    \PackageError{pagetitre-ets}{Matériel informatique non spécifiée. Utilisez la commande `setMaterielInformatiqueAutorise` ou `setMaterielInformatiqueInterdit`.}{}
+  }
+
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3.3 Mise en forme de la page-titre %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+% Mise en forme spécifique de la boîte 'calculatrice'
+\newcommand{\ptets@calculatrice}{
+  \textbf{Calculatrice~:} \textit{\fontsize{10}{12}\selectfont(doit indiquer le type si autorisée)}~~
+    \ptets@BoiteCalculatriceAutorisee Autorisée \quad 
+    \ptets@BoiteCalculatriceInterdite Interdite \\[2pt]
+
+    \textbf{Type de calculatrice~:}
+    \ptets@BoiteTypeCalculatriceTous ~Tous \quad 
+    \ptets@BoiteTypeCalculatriceProgrammable ~Programmable \quad
+    \ptets@BoiteTypeCalculatriceNonProgrammable ~Non-programmable \quad
+    \ptets@BoiteTypeCalculatriceLogiciel ~Logiciel ou application numérique \textit{\fontsize{10}{12}\selectfont (doit indidiquer le support dans le matériel informatique)} \\[2pt]
+    \ptets@calculatriceModelesPermis
+}
+
+
+% Mise en forme spécifique de la boîte 'matériel informatique'
+\newcommand{\ptets@materielInformatiquePersonnel}{
+  \ptets@BoiteMaterielInformatiqueOui ~Oui ~~~
+  \ptets@BoiteMaterielInformatiqueNon ~Non
+  \textit{\fontsize{10}{12}\selectfont si oui, précisez:}\\[4pt]
+  \ptets@BoiteTypeMaterielInformatiqueTous Tous \quad 
+  \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable Ordinateur portable \quad 
+  \ptets@BoiteTypeMaterielInformatiqueTablette Tablette \quad 
+  \ptets@BoiteTypeMaterielInformatiqueCleUSB Clé USB \quad 
+  \ptets@BoiteTypeMaterielInformatiqueAutre 
+}
+
+
+% Mise enforme de la boîte où inscrire les points de chacune des questions
+% (l'affaire que personne n'utilise).
+\newcommand{\ptets@boiteAPoints}{%
+  \tikzmath{\hauteurBoiteAPoints = 2.3;}
+  \tikzmath{\largeurCaseAPoints = \largeurBoites / 14;}
+  \tikzmath{\hauteurUneLigne = 0.5;}
+  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
+  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur (facultatif)}} +(\largeurBoites, \hauteurUneLigne);
+
+  \tikzmath{\hauteurCourante = \hauteurCourante + 0.5;}
+  \draw (\hauteurCourante + 0 * \largeurCaseAPoints, \hauteurCourante) rectangle node {Q1} +(\largeurCaseAPoints, \hauteurUneLigne);
+  \foreach \i in {0, ..., 6} {
+    \tikzmath{\x = 2*\i*\largeurCaseAPoints;}
+    \tikzmath{\dx = \largeurCaseAPoints;}
+    \tikzmath{\y = \hauteurCourante;}
+    \tikzmath{\dy = \hauteurUneLigne;}
+    \tikzmath{\q1 = \i+1;}
+    \tikzmath{\q2 = \i+8;}
+    \draw (\x, \y) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q1}~:}; 
+    \draw (\x, \y+\dy) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q2}~:}; 
+    \draw (\x+\dx, \y)     rectangle node{/~} +(\dx, \dy);
+    \draw (\x+\dx, \y+\dy) rectangle node{/~} +(\dx, \dy);
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
+  \draw (0, \hauteurCourante) rectangle  +(5*\largeurCaseAPoints, 0.8);
+  \node[left] at (5 * \largeurCaseAPoints, \hauteurCourante + 0.4) {\textsc{Total~:}};
+  \draw (5*\largeurCaseAPoints, \hauteurCourante) rectangle node{\Large /} +(2*\largeurCaseAPoints, 0.8);
+  \draw (7*\largeurCaseAPoints, \hauteurCourante) rectangle node{
+    Signature~:~\underline{\hspace{8.0cm}}
+  } +(7*\largeurCaseAPoints, 0.8);
+}
+
+
+% Mise en forme de la page titre
 \newcommand{\ptets@formerPageTitre}{
   % Utilise les commandes suivantes :
   %
@@ -57,14 +458,14 @@
   %  - \ptets@boite{<hauteur>}{<contenu>}
   %  - \ptets@espaceVertical{<hauteur>}
   %
-  % Ces quatre commandes reçoivent comme premier argument la hauteur de la boite à créer. Les boîtes
-  % sont empilées une après l'autre pour créer la page titre.
+  % Ces quatre commandes reçoivent comme premier argument la hauteur de la
+  % boite à créer. Les boîtes sont empilées une après l'autre pour créer la
+  % page titre.
 
 
 
   %%%%%%%%%%%%%%%%%%
-  %%% Les boites %%%
-  %%%%%%%%%%%%%%%%%%
+  %%% Les boites
 
   % Entête avec le logo de l'ÉTS et un avertissement.
   \ptets@boiteCentreeSansBordure{4}{
@@ -75,9 +476,9 @@
       &
       \begin{tabular}[t]{c}
         \begin{minipage}{168mm}
-          \underline{\smash{\textbsc{Vous devez respecter le r\`eglement sur
+          \underline{\smash{\ptets@textbsc{Vous devez respecter le r\`eglement sur
           les infractions de nature acad\'emique}}}\\
-          \textbsc{Notamment~:}
+          \ptets@textbsc{Notamment~:}
           \fontsize{10}{12}\selectfont\bf
           \begin{itemize}
             \setlength\itemsep{-0.5mm}
@@ -114,7 +515,7 @@
 
   % Session (saison et année) et type d'examen
   \ptets@boiteCentree{1}{
-    \Large\textbsc{{\ptets@saison} {\ptets@annee} -- {\ptets@type}}
+    \Large\ptets@textbsc{{\ptets@saison} {\ptets@annee} -- {\ptets@type}}
   }
 
   % Signe, nom du cours, groupes, enseignants, date, heure et durée.
@@ -191,388 +592,20 @@
     \end{tabular}
   }
 
-  %% Élément retirée à la session A2022
-  %%%% Avertissement pour les profs
-  %%%\ptets@boiteFondGris{1.3}{
-  %%%  \begin{tabular}{p{{\largeurTexte}cm}}%
-  %%%    \textit{%
-  %%%      Les professeurs des d\'epartements peuvent se pr\'evaloir d'\^etre
-  %%%      disponibles uniquement durant la premi\`ere heure de leur examen final. Ils
-  %%%      doivent toutefois en informer leurs étudiants.
-  %%%    }
-  %%%  \end{tabular}
-  %%%}
-
   \ptets@espaceVertical{0.5};
   \ptets@boiteAPoints
-
-}
-
-\newcommand{\caseVide}{$\square$}
-\newcommand{\caseCochee}{$\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}$}
-
-
-% Gras et petites capites, si c'est possible
-\newcommand{\textbsc}[1]{\textsc{\textbf{#1}}}
-
-%
-% Définition des variables internes.
-% 
-% Deux objectifs : 
-%
-% - Informations obligatoires : valider le fair que l'utilisateur·trice a bien spécifié toutes les
-%   informations requises.
-%
-% - Information optionnelles : affecter la valeur par défaut.
-%
-\newcommand{\setSaison}[1]{
-  \newcommand{\ptets@saison}{#1}
-}
-
-\newcommand{\setAnnee}[1]{
-  \newcommand{\ptets@annee}{#1}
-}
-
-\newcommand{\setType}[1]{
-  \newcommand{\ptets@type}{#1}
-}
-
-\newcommand{\setSigleEtTitre}[1]{
-  \newcommand{\ptets@signeEtTitre}{#1}
-}
-
-\newcommand{\setGroupes}[1]{
-  \newcommand{\ptets@groupes}{#1}
-}
-
-\newcommand{\setEnseignants}[1]{
-  \newcommand{\ptets@enseignants}{#1}
-}
-
-\newcommand{\setDate}[1]{
-  \newcommand{\ptets@date}{#1}
-}
-
-\newcommand{\setHeure}[1]{
-  \newcommand{\ptets@heure}{#1}
-}
-
-\newcommand{\setDuree}[1]{
-  \newcommand{\ptets@duree}{#1}
-}
-
-\newcommand{\setOuEcrireLesReponses}[1]{
-  \newcommand{\ptets@ouEcrireLesReponses}{#1}
-}
-
-\newcommand{\ptets@ouEcrireLesReponsesPrecisions}{}
-\newcommand{\setOuEcrireLesReponsesPrecisions}[1]{
-  \renewcommand{\ptets@ouEcrireLesReponsesPrecisions}{\\[6pt] {\fontsize{10}{12}\selectfont \textbf{Pr\'ecision(s)}~: #1}}
-}
-
-\newcommand{\setNbPages}[1]{
-  \newcommand{\ptets@nbPages}{#1}
-}
-
-\newcommand{\setNbQuestions}[1]{
-  \newcommand{\ptets@nbQuestions}{#1}
-}
-
-\newcommand{\ptets@BoiteCalculatriceAutorisee}{\caseVide}
-\newcommand{\ptets@BoiteCalculatriceInterdite}{\caseVide}
-\newcommand{\ptets@BoiteTypeCalculatriceTous}{\caseVide}
-\newcommand{\ptets@BoiteTypeCalculatriceProgrammable}{\caseVide}
-\newcommand{\ptets@BoiteTypeCalculatriceNonProgrammable}{\caseVide}
-\newcommand{\ptets@BoiteTypeCalculatriceLogiciel}{\caseVide}
-
-\newcommand{\setCalculatriceAutorisee}{
-  \newcommand{\ptets@calculatriceAutoriseeOuNon}{}
-  \renewcommand{\ptets@BoiteCalculatriceAutorisee}{\caseCochee}
-}
-\newcommand{\setCalculatriceInterdite}{
-  \newcommand{\ptets@calculatriceAutoriseeOuNon}{}
-  \renewcommand{\ptets@BoiteCalculatriceInterdite}{\caseCochee}
-}
-
-\newcommand{\setTypeCalculatriceTous}{
-  \renewcommand{\ptets@BoiteTypeCalculatriceTous}{\caseCochee}
-}
-\newcommand{\setTypeCalculatriceProgrammable}{
-  \renewcommand{\ptets@BoiteTypeCalculatriceProgrammable}{\caseCochee}
-}
-\newcommand{\setTypeCalculatriceNonProgrammable}{
-  \renewcommand{\ptets@BoiteTypeCalculatriceNonProgrammable}{\caseCochee}
-}
-\newcommand{\setTypeCalculatriceLogiciel}{
-  \renewcommand{\ptets@BoiteTypeCalculatriceLogiciel}{\caseCochee}
-}
-
-
-\newcommand{\ptets@calculatriceModelesPermis}{}
-\newcommand{\setCalculatriceModelesPermis}[1]{
-  \renewcommand{\ptets@calculatriceModelesPermis}{\textbf{Modèle(s) permis~:} #1}
-}
-
-\newcommand{\ptets@calculatrice}{
-  \textbf{Calculatrice~:} \textit{\fontsize{10}{12}\selectfont(doit indiquer le type si autorisée)}~~
-    \ptets@BoiteCalculatriceAutorisee Autorisée \quad 
-    \ptets@BoiteCalculatriceInterdite Interdite \\[2pt]
-
-    \textbf{Type de calculatrice~:}
-    \ptets@BoiteTypeCalculatriceTous ~Tous \quad 
-    \ptets@BoiteTypeCalculatriceProgrammable ~Programmable \quad
-    \ptets@BoiteTypeCalculatriceNonProgrammable ~Non-programmable \quad
-    \ptets@BoiteTypeCalculatriceLogiciel ~Logiciel ou application numérique \textit{\fontsize{10}{12}\selectfont (doit indidiquer le support dans le matériel informatique)} \\[2pt]
-    \ptets@calculatriceModelesPermis
-}
-
-\newcommand{\setDocumentation}[1]{
-  \newcommand{\ptets@documentation}{
-    \begin{minipage}[t]{17cm}
-      \begin{enumerate}[\ptets@monBullet]
-          \setlength\itemsep{-1mm}
-          #1
-      \end{enumerate}
-    \end{minipage}
-  }
-}
-
-\newcommand{\setAnnexes}[1]{
-  \newcommand{\ptets@annexes}{
-    \begin{minipage}[t]{1.0\textwidth}
-      \begin{enumerate}[\ptets@monBullet]
-          \setlength\itemsep{-1mm}
-          #1
-      \end{enumerate}
-    \end{minipage}
-  }
-}
-
-%% Commande retirée
-%%\newcommand{\ptets@directivesParticulieres}{}
-%%\newcommand{\setDirectivesParticulieres}[1]{
-%%  \renewcommand{\ptets@directivesParticulieres}{#1}
-%%}
-
-
-\newcommand{\ptets@examenEnPlusieursPartiesPrecisions}{}
-\newcommand{\setExamenEnPlusieursPartiesPrecisions}[1]{
-  \renewcommand{\ptets@examenEnPlusieursPartiesPrecisions}{#1}
-}
-
-\newcommand{\ptets@examenEnPlusieursParties}{\caseVide}
-\newcommand{\setExamenEnPlusieursParties}[1]{
-  \renewcommand{\ptets@examenEnPlusieursParties}{\caseCochee ~~~ \textbf{#1}}
 }
 
 
 
-\newcommand{\setMaterielInformatiqueAutorise}{
-  \newcommand{\ptets@MaterielInformatiqueAutoriseeOuNon}{}
-  \newcommand{\ptets@BoiteMaterielInformatiqueOui}{\caseCochee}
-  \newcommand{\ptets@BoiteMaterielInformatiqueNon}{\caseVide}
-}
-\newcommand{\setMaterielInformatiqueInterdit}{
-  \newcommand{\ptets@MaterielInformatiqueAutoriseeOuNon}{}
-  \newcommand{\ptets@BoiteMaterielInformatiqueOui}{\caseVide}
-  \newcommand{\ptets@BoiteMaterielInformatiqueNon}{\caseCochee}
-}
-
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\caseVide ~}
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\caseVide ~}
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueTablette}{\caseVide ~}
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueCleUSB}{\caseVide ~}
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{\caseVide ~Autre}
-
-\newcommand{\setTypeMaterielInformatiqueTous}{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\caseCochee}
-}
-\newcommand{\setTypeMaterielInformatiqueOrdinateurPortable}{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\caseCochee}
-}
-\newcommand{\setTypeMaterielInformatiqueTablette}{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueTablette}{\caseCochee}
-}
-\newcommand{\setTypeMaterielInformatiqueCleUSB}{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueCleUSB}{\caseCochee}
-}
-\newcommand{\setTypeMaterielInformatiqueAutre}[1]{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{\caseCochee Autre ~~~ \textbf{#1}}
-}
-
-
-\newcommand{\ptets@materielInformatiquePersonnel}{
-  \ptets@BoiteMaterielInformatiqueOui ~Oui ~~~
-  \ptets@BoiteMaterielInformatiqueNon ~Non
-  \textit{\fontsize{10}{12}\selectfont si oui, précisez:}\\[4pt]
-  \ptets@BoiteTypeMaterielInformatiqueTous Tous \quad 
-  \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable Ordinateur portable \quad 
-  \ptets@BoiteTypeMaterielInformatiqueTablette Tablette \quad 
-  \ptets@BoiteTypeMaterielInformatiqueCleUSB Clé USB \quad 
-  \ptets@BoiteTypeMaterielInformatiqueAutre 
-  }
-
-
-\newcommand{\ptets@espaceVertical}[1]{%
-  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
-}
-
-\newcommand{\ptets@boiteCentree}[2]{%
-  \draw (0, \hauteurCourante) rectangle node {#2} +(\largeurBoites, #1);
-  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
-}
-
-\newcommand{\ptets@boiteCentreeSansBordure}[2]{%
-  \node at (\largeurBoites / 2, \hauteurCourante + #1 / 2) {#2};
-  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
-}
-
-\newcommand{\ptets@boite}[2]{%
-  \draw (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
-  \node[right] at (0, \hauteurCourante + #1/2) {
-    #2
-  };
-  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
-}
-
-\newcommand{\ptets@boiteFondGris}[2]{%
-  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
-  \node[right] at (0, \hauteurCourante + #1/2) {
-    #2
-  };
-  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
-}
-
-\newcommand{\ptets@boiteAPoints}{%
-  \tikzmath{\hauteurBoiteAPoints = 2.3;}
-  \tikzmath{\largeurCaseAPoints = \largeurBoites / 14;}
-  \tikzmath{\hauteurUneLigne = 0.5;}
-  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
-  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur (facultatif)}} +(\largeurBoites, \hauteurUneLigne);
-
-  \tikzmath{\hauteurCourante = \hauteurCourante + 0.5;}
-  \draw (\hauteurCourante + 0 * \largeurCaseAPoints, \hauteurCourante) rectangle node {Q1} +(\largeurCaseAPoints, \hauteurUneLigne);
-  \foreach \i in {0, ..., 6} {
-    \tikzmath{\x = 2*\i*\largeurCaseAPoints;}
-    \tikzmath{\dx = \largeurCaseAPoints;}
-    \tikzmath{\y = \hauteurCourante;}
-    \tikzmath{\dy = \hauteurUneLigne;}
-    \tikzmath{\q1 = \i+1;}
-    \tikzmath{\q2 = \i+8;}
-    \draw (\x, \y) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q1}~:}; 
-    \draw (\x, \y+\dy) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q2}~:}; 
-    \draw (\x+\dx, \y)     rectangle node{/~} +(\dx, \dy);
-    \draw (\x+\dx, \y+\dy) rectangle node{/~} +(\dx, \dy);
-  };
-  \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
-  \draw (0, \hauteurCourante) rectangle  +(5*\largeurCaseAPoints, 0.8);
-  \node[left] at (5 * \largeurCaseAPoints, \hauteurCourante + 0.4) {\textsc{Total~:}};
-  \draw (5*\largeurCaseAPoints, \hauteurCourante) rectangle node{\Large /} +(2*\largeurCaseAPoints, 0.8);
-  \draw (7*\largeurCaseAPoints, \hauteurCourante) rectangle node{
-    Signature~:~\underline{\hspace{8.0cm}}
-  } +(7*\largeurCaseAPoints, 0.8);
-}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 4. La commande qui construit la page-titre %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \newcommand{\pagetitreETS}{
 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%                           %%%
-  %%% Validation des paramètres %%%
-  %%%                           %%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \ifdef{\ptets@saison}
-  {}{
-    \PackageError{pagetitre-ets}{Saison non spécifiée. Utilisez la commande `setSaison` avec un argument parmi : Hiver, Été, Automne}{}
-  }
-
-  \ifdef{\ptets@annee}
-  {}{
-    \PackageError{pagetitre-ets}{Année non spécifiée. Utilisez la commande `setAnnee` avec l'année en argument}{}
-  }
-
-  \ifdef{\ptets@type}
-  {}{
-    \PackageError{pagetitre-ets}{Type d'examen non spécifié. Utilisez la commande `setType` avec un argument parmi : EXAMEN FINAL, EXAMEN FINAL DIFFÉRÉ, EXAMEN INTRA, EXAMEN INTRA DIFFÉRÉ}{}
-  }
-
-  \ifdef{\ptets@signeEtTitre}
-  {}{
-    \PackageError{pagetitre-ets}{Signe et titre du cours non spécifiés. Utilisez la commande `setSignetEtTitre` avec comme argument le signet et le titre}{}
-  }
-
-  \ifdef{\ptets@groupes}
-  {}{
-    \PackageError{pagetitre-ets}{Groupe(s) non spécifié(s). Utilisez la commande `setGroupes` avec comme arguement le(s) groupe(s) conecernés}{}
-  }
-
-  \ifdef{\ptets@enseignants}
-  {}{
-    \PackageError{pagetitre-ets}{Enseignant(s) non spécifié(s). Utilisez la commande `setEnseignants` avec comme arguement le(s) enseignant(s) concernés}{}
-  }
-
-  \ifdef{\ptets@date}
-  {}{
-    \PackageError{pagetitre-ets}{Date non spécifiée. Utilisez la commande `setDate` avec comme argument la date de l'examen}{}
-  }
-
-  \ifdef{\ptets@heure}
-  {}{
-    \PackageError{pagetitre-ets}{Heure non spécifiée. Utilisez la commande `setHeure` avec comme argument l'heure du début de l'examen}{}
-  }
-
-  \ifdef{\ptets@duree}
-  {}{
-    \PackageError{pagetitre-ets}{Duree non spécifiée. Utilisez la commande `setDuree` avec comme argument la durée de l'examen}{}
-  }
-
-  \ifdef{\ptets@ouEcrireLesReponses}
-  {}{
-    \PackageError{pagetitre-ets}{Endroit où répondre aux question non spécifié. Utilisez la commande `setOuEcrireLesReponses` avec comme argument un valeur parmi : dans le cahier d'examen standard ÉTS, sur ce questionnaire, en laboratoire dans ENA Quiz.}{}
-  }
-
-  \ifdef{\ptets@nbPages}
-  {}{
-    %\PackageError{pagetitre-ets}{Nombre de pages non spécifiée. Utilisez la commande `setNbPages` avec comme argument le nombre de pages de l'énoncé de l'examen}{}
-    \newcommand{\ptets@nbPages}{\pageref{LastPage}}
-  }
-
-  \ifdef{\ptets@nbQuestions}
-  {}{
-    \PackageError{pagetitre-ets}{Nombre de questions non spécifiée. Utilisez la commande `setNbQuestions` avec comme argument le nombre de page de l'examen}{}
-  }
-
-  \ifdef{\ptets@calculatriceAutoriseeOuNon}
-  {}{
-    \PackageError{pagetitre-ets}{Utilisation de la calculatrice non spécifiée. Utilisez la commande `setCalculatrice` avec comme argument une valeur parmi : interdite, autorisée}{}
-  }
-
-  \ifdef{\ptets@documentation}
-  {}{
-    \PackageError{pagetitre-ets}{Documentation permise non spécifiée. Utilisez la commande `setDocumentation` avec comme argument la documetation permise, où chaque élément début par `\\item`}{}
-  }
-
-  \ifdef{\ptets@annexes}
-  {}{
-    \PackageError{pagetitre-ets}{Annexes non spécifiée. Utilisez la commande `setAnnexes` avec comme argument soit `aucune`, soit la liste des annexes}{}
-  }
-
-  \ifdef{\ptets@MaterielInformatiqueAutoriseeOuNon}
-  {}{
-    \PackageError{pagetitre-ets}{Matériel informatique non spécifiée. Utilisez la commande `setMaterielInformatiqueAutorise` ou `setMaterielInformatiqueInterdit`.}{}
-  }
-
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%                        %%%
-  %%% Début de la page titre %%%
-  %%%                        %%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \ptets@validerParametres
 
   \thispagestyle{empty}
   % Éviter une erreur de compil si utilisé avec \usepackage[french]{babel}
