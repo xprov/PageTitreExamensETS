@@ -342,7 +342,7 @@
 
   \ifdef{\ptets@ouEcrireLesReponses}
   {}{
-    \PackageError{pagetitre-ets}{Endroit où répondre aux question non spécifié. Utilisez la commande `setOuEcrireLesReponses` avec comme argument un valeur parmi : dans le cahier d'examen standard ÉTS, sur ce questionnaire, en laboratoire dans ENA Quiz.}{}
+    \PackageError{pagetitre-ets}{Endroit où répondre aux question non spécifié. Utilisez la commande `setOuEcrireLesReponses` avec comme argument un valeur parmi : dans le cahier d'examen standard ÉTS, sur ce questionnaire, etc.}{}
   }
 
   \ifdef{\ptets@nbPages}
@@ -533,7 +533,8 @@
   % Où écrire les réponses
   \ptets@boite{\ptets@hauteurBoiteOuEcrireLesReponses}{
     \begin{tabular}{p{{\largeurTexte}cm}}
-      \textbf{\'Ecrire les r\'eponses~:}~\ptets@ouEcrireLesReponses
+      \textbf{\'Ecrire les r\'eponses~:}$\;$ Examen papier \ptets@caseCochee, $\;$
+      \ptets@ouEcrireLesReponses
       \ptets@ouEcrireLesReponsesPrecisions
     \end{tabular}
   }
