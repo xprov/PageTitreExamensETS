@@ -51,6 +51,7 @@
 %   4. La commande qui construit la page-titre
 %   
 %
+% 
 %
 %
 %
@@ -130,8 +131,8 @@
 % Dans les deux cas, la commande interne `\ptets@calculatriceAutoriseeOuNon`
 % est définie ce qui permet de valider le fait que l'utilisateur a bien indiqué
 % son choix. Si la commande n'a pas été définie, alors une erreur sera levée.
-\newcommand{\ptets@BoiteCalculatriceAutorisee}{\ptets@caseVide}
-\newcommand{\ptets@BoiteCalculatriceInterdite}{\ptets@caseVide}
+\newcommand{\ptets@BoiteCalculatriceAutorisee}{\ptets@caseVide~}
+\newcommand{\ptets@BoiteCalculatriceInterdite}{\ptets@caseVide~}
 \newcommand{\ptets@BoiteTypeCalculatriceTous}{\ptets@caseVide}
 \newcommand{\ptets@BoiteTypeCalculatriceProgrammable}{\ptets@caseVide}
 \newcommand{\ptets@BoiteTypeCalculatriceNonProgrammable}{\ptets@caseVide}
@@ -239,6 +240,18 @@
 }
 
 
+% Cacher les instructions
+% La page titre officielle contient des instructions destinées à la personne
+% qui rédige l'examen. Cette approche semble contraire à l'objectif de la page
+% titre qui, elle, s'adresse aux étudiants et aux surveillants.
+% 
+% Ainsi, la commande `\cacherInstructions` permet de supprimer ces directives.
+\newcommand{\ptets@formatTextInstructions}[1]{\textit{\fontsize{10}{12}\selectfont #1}}
+\newcommand{\cacherInstructions}{
+  \renewcommand{\ptets@formatTextInstructions}[1]{}
+}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% 3. Commandes internes %%%
@@ -275,6 +288,14 @@
 }
 \newcommand{\ptets@boite}[2]{%
   \draw (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \node[right] at (0, \hauteurCourante + #1/2) {
+    #2
+  };
+  \tikzmath{\hauteurCourante = \hauteurCourante + #1;}
+}
+\newcommand{\ptets@boiteAvecCaseAGauche}[2]{%
+  \draw (0, \hauteurCourante) rectangle  +(\largeurBoites, #1);
+  \draw (3.7, \hauteurCourante) --  +(0, #1);
   \node[right] at (0, \hauteurCourante + #1/2) {
     #2
   };
@@ -390,7 +411,7 @@
 
 % Mise en forme spécifique de la boîte 'calculatrice'
 \newcommand{\ptets@calculatrice}{
-  \textbf{Calculatrice~:} \textit{\fontsize{10}{12}\selectfont(doit indiquer le type si autorisée)}~~
+  \textbf{Calculatrice~:} \ptets@formatTextInstructions{(doit indiquer le type si autorisée)}~~
     \ptets@BoiteCalculatriceAutorisee Autorisée \quad 
     \ptets@BoiteCalculatriceInterdite Interdite \\[2pt]
 
@@ -398,7 +419,7 @@
     \ptets@BoiteTypeCalculatriceTous ~Tous \quad 
     \ptets@BoiteTypeCalculatriceProgrammable ~Programmable \quad
     \ptets@BoiteTypeCalculatriceNonProgrammable ~Non-programmable \quad
-    \ptets@BoiteTypeCalculatriceLogiciel ~Logiciel ou application numérique \textit{\fontsize{10}{12}\selectfont (doit indidiquer le support dans le matériel informatique)} \\[2pt]
+    \ptets@BoiteTypeCalculatriceLogiciel ~Logiciel ou application numérique \ptets@formatTextInstructions{(doit indidiquer le support dans le matériel informatique)} \\[2pt]
     \ptets@calculatriceModelesPermis
 }
 
@@ -407,7 +428,7 @@
 \newcommand{\ptets@materielInformatiquePersonnel}{
   \ptets@BoiteMaterielInformatiqueOui ~Oui ~~~
   \ptets@BoiteMaterielInformatiqueNon ~Non
-  \textit{\fontsize{10}{12}\selectfont si oui, précisez:}\\[4pt]
+  \ptets@formatTextInstructions{si oui, précisez :}\\[4pt]
   \ptets@BoiteTypeMaterielInformatiqueTous Tous \quad 
   \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable Ordinateur portable \quad 
   \ptets@BoiteTypeMaterielInformatiqueTablette Tablette \quad 
@@ -565,7 +586,13 @@
   % Documentation
   \ptets@boite{\ptets@hauteurBoiteDocumentation}{
     \begin{tabular}{p{2cm}l}
-      \textbf{Documentation~:}&\ptets@documentation
+      \textbf{Documentation~:}&%
+      \ptets@formatTextInstructions{%
+        \fontsize{9}{11}\selectfont%
+        ~~~~~Indiquez ce qui est permis, incluant si la documentation est
+        électronique (doit indiquer le support dans le matériel informatique)
+      }\\
+      \multicolumn{2}{l}{\ptets@documentation}
     \end{tabular}
   }
 
@@ -577,13 +604,13 @@
   }
 
   % Directives particulières
-  \ptets@boite{\ptets@hauteurBoiteDirectivesParticulieres}{
-    \begin{tabular}{ll}
+  \ptets@boiteAvecCaseAGauche{\ptets@hauteurBoiteDirectivesParticulieres}{
+    \begin{tabular}{p{3cm}l}
       \begin{tabular}[t]{@{}l@{}}
         \textbf{Directives}\\
         \textbf{particulières~:}\\
-        \fontsize{10}{12}\selectfont \textit{précisez les modalités}\\ 
-        \fontsize{10}{12}\selectfont \textit{(s'il y a lieu)}
+        \ptets@formatTextInstructions{précisez les modalités}\\ 
+        \ptets@formatTextInstructions{(s'il y a lieu)}
       \end{tabular}
       &
       \begin{tabular}[t]{p{15cm}}

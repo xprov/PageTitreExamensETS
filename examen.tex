@@ -1,0 +1,77 @@
+% On utilise le format `exam`. 
+%
+% Le principal avantage est d'offrir un commande `\question` qui incrément un
+% compteur de questions. Ce compteur peut être appelé afin d'indiquer le bon
+% nombre sur la page titre.
+%
+\documentclass[12pt]{exam}
+
+\usepackage{amsmath,amsfonts}
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry} % pour ajuster les marges
+\usepackage{tikz}
+\usepackage{pagetitre-ets}
+
+
+% Configuration des entêtes et pieds de pages.
+\headrule
+\runningheader{\textit{MAT000}  }{}{Page \thepage~de \numpages}
+%\footrule
+\runningfooter{}{}{} % rien en pied de page.
+
+
+% Pour ajouter une page de brouillon
+\newcommand{\pagebrouillon}{
+  \newpage
+  %\addtocounter{page}{-1}
+  %\thispagestyle{empty}
+
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[color=black, opacity=0.1, rotate=55] at (current page.center) {
+      \scalebox{15}{Brouillon}
+    };
+    %\draw (current page.north west) ++(5.2,-2) node{<NOMETUDIANT>};
+    \node (coin) at (current page.south east) {};
+    \draw (coin) ++(-6.6,1) node{\footnotesize Sauf indication de votre part, cette page ne sera pas considérée lors de la correction.};
+  \end{tikzpicture}
+  \clearpage
+}
+
+
+
+% Pour ne pas surcharger le document principal, on effectue la configuration de
+% la page titre dans un fichier distinct.
+\input{configPageTitre.tex} 
+
+
+\begin{document}
+
+
+% Construction de la page titre
+\pagetitreETS
+
+% Par défaut, le BDR imprime les documents recto-verso. On s'organique pour que
+% toutes les pages paires (les verso) soient du brouillon.
+\pagebrouillon
+
+\begin{questions} % début de l'examen à proprement parler
+  \addpoints % Ceci permet d'additionner les points.
+
+
+
+\question[10] 
+Ceci est une question valant 10 points.
+
+\pagebrouillon
+
+\question[15]
+Ceci est une question valant 15 points.
+
+% Facultatif : afficher le nombre total de points (à retirer avant l'impression)
+%Total des points : \numpoints
+
+\pagebrouillon
+  
+
+\end{questions}
+\end{document}
+

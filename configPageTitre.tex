@@ -1,15 +1,8 @@
-\documentclass{article}
-\usepackage{pagetitre-ets}
-%\usepackage{geometry}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% PAGE TITRE (début) %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-% AVERTISSEMENT : en cas de doute, toujours vous référer au document
-% ``Explication de la page titre 2022'' disponible sur le site web de l'ÉTS :
+% AVERTISSEMENT : toujours vous référer au document ``Explication de la page
+% titre 2023'' disponible sur le site web de l'ÉTS :
 % https://www.etsmtl.ca/personnel-enseignant-examens-finaux
 
 
@@ -24,8 +17,8 @@
 
 %%%  Sélectionner le type d'examen
 % Note : si l'examen est en deux parties, chaque partie doit avoir sa page titre.
-\setType{EXAMEN INTRA}
-%\setType{EXAMEN INTRA -- Partie 1 de 2}
+%\setType{EXAMEN INTRA}
+\setType{EXAMEN INTRA -- Partie 1 de 2}
 %\setType{EXAMEN INTRA -- Partie 2 de 2}
 %\setType{EXAMEN INTRA DIFFÉRÉ}
 %\setType{EXAMEN INTRA DIFFÉRÉ -- Partie 1 de 2}
@@ -47,10 +40,10 @@
 
 
 %%%  Informations générales
-\setSigleEtTitre{MAT101 -- Éléments de mathématiques}
-\setGroupes{19 et 94}
+\setSigleEtTitre{MAT000 -- Éléments de mathématiques}
+\setGroupes{01 et 10}
 \setEnseignants{
-  Donald Knuth et Leslie Lamport
+  Alan Smithee
 }
 
 
@@ -64,7 +57,7 @@
 
 
 % Nombre de question et nombre de pages. Si l'examen est sur ENAQuiz, il faut
-\setNbQuestions{2}
+\setNbQuestions{$\numquestions$} %command \numquestions fournie par le style `exam`
 %\setNbPages{5} % optionnel, si non spécifié alors la valeur `\pageref{LastPage}` est utilisée
 
 
@@ -84,7 +77,7 @@
 %% Documentation, choisissez au moins une options et complétez si nécessaire.
 %% La commande `\item` n'est pas optionnelle.
 \setDocumentation{
-  \item aucune
+  \item Aucune
   %\item feuille(s) de note(s), précisez le format et le nombre de pages
   %\item toutes documentation papier
   %\item documentation électronique, préciser :
@@ -102,7 +95,7 @@
 %% Annexes, choississez une ligne et complétez.
 %% La commande `\item` n'est pas optionnelle.
 \setAnnexes{
-  \item aucune
+  \item Aucune
   %\item oui, préciser le titre et spécifiez les pages.
 }
 
@@ -126,19 +119,7 @@
 %\setTypeMaterielInformatiqueAutre{Précisions ici}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% PAGE TITRE (fin) %%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{document}
-
-\pagetitreETS
-
-
-\paragraph{Question 1.} Ceci est une question.
-\paragraph{Question 2.} Ceci est une question.
-
-
-\end{document}
+%% Pour cacher les instruction s'adressant à la personne qui rédige l'examen
+%\cacherInstructions
 
 
