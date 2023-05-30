@@ -271,7 +271,7 @@
 
 % Case cochée ou non.
 \newcommand{\ptets@caseVide}{$\square$}
-\newcommand{\ptets@caseCochee}{$\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}$}
+\newcommand{\ptets@caseCochee}{$\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\checkmark}}$\!}
 
 
 % Macros utilisée pour positionner les éléments dans la page.
@@ -400,10 +400,24 @@
 }
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% 3.3 Mise en forme de la page-titre %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ptets@construireNumeroDeSession}{
+  \ifthenelse{\equal{\ptets@saison}{Hiver}}{\newcommand{\ptets@numSession}{{\ptets@annee}{1}}}{}
+  \ifthenelse{\equal{\ptets@saison}{Été}}{\newcommand{\ptets@numSession}{{\ptets@annee}{2}}}{}
+  \ifthenelse{\equal{\ptets@saison}{Automne}}{\newcommand{\ptets@numSession}{{\ptets@annee}{3}}}{}
+  \ifdef{\ptets@numSession}
+  {}{
+    \PackageError{pagetitre-ets}{Saison invalide. L'argument de la commande `setSaison` doit être Hiver, Été ou Automne.}{}
+  }
+}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% 3.3 Mise en forme de la page-titre %%%
+%%% 3.4 Mise en forme de la page-titre %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -514,7 +528,7 @@
       \end{tabular}
       \\
       \\[-7pt]
-      {\fontsize{10}{12}\selectfont BDR session 20231} &
+      {\fontsize{10}{12}\selectfont BDR session \ptets@numSession} &
       \textbf{Une sanction allant jusqu'\`a l'\'echec pourrait vous \^etre impos\'ee en cas d'infraction au R\`eglement.}
     \end{tabular}
   }
@@ -634,6 +648,7 @@
 \newcommand{\pagetitreETS}{
 
   \ptets@validerParametres
+  \ptets@construireNumeroDeSession
 
   \thispagestyle{empty}
   % Éviter une erreur de compil si utilisé avec \usepackage[french]{babel}
