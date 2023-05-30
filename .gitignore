@@ -1,6 +1,6 @@
 *.aux
 *.log
-examenBidonAvecPageTitre.pdf
+exemple/examen.pdf
 *.synctex.gz
 *.latexmain
 makefile
