@@ -7,8 +7,8 @@ La [page titre officielle](https://www.etsmtl.ca/docs/personnel-enseignant-exame
 
 Le but de ce projet est d'offrir une alternative en LaTeX.
 
-<a href="./images/exemple_simple.png"><img src="./images/exemple_simple.png" width="300"/></a>
-<a href="./images/exemple_complexe.png"><img src="./images/exemple_complexe.png" width="300"/></a>
+<a href="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_simple.png"><img src="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_simple.png" width="300"/></a>
+<a href="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_complexe.png"><img src="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_complexe.png" width="300"/></a>
 
 
 ## Utilisation
