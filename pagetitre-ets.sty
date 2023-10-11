@@ -67,7 +67,7 @@
   \tikzmath{\largeurBoiteEnglobante = 20;}
   \tikzmath{\hauteurBoiteEnglobante = 23.6;}
   \tikzmath{\largeurBoites = \largeurBoiteEnglobante;} % largeur des boîtes
-  \tikzmath{\largeurTexte = \largeurBoites - 1.6;} % largeur du texte dans une boîte 
+  \tikzmath{\largeurTexte = \largeurBoites - 1.9;} % largeur du texte dans une boîte 
   \tikzmath{\hauteurCourante = 0;} % le haut de la page est 0, positif vers le bas
 }
 
@@ -98,8 +98,8 @@
 
 % Hauteur des boites : optionnel
 % Valeurs par défaut
-\newcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{2.0}
-\newcommand{\ptets@hauteurBoiteCalculatrice}{2.1}
+\newcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{1.5}
+\newcommand{\ptets@hauteurBoiteCalculatrice}{2.5}
 \newcommand{\ptets@hauteurBoiteDocumentation}{1.4}
 \newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
 \newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{3.2}
@@ -427,15 +427,17 @@
 % Mise en forme spécifique de la boîte 'calculatrice'
 \newcommand{\ptets@calculatrice}{
   \textbf{Calculatrice~:} \ptets@formatTextInstructions{(doit indiquer le type si autorisée)}~~
-    \ptets@BoiteCalculatriceAutorisee Autorisée \quad 
-    \ptets@BoiteCalculatriceInterdite Interdite \\[2pt]
+    Autorisée \ptets@BoiteCalculatriceAutorisee \quad 
+    Interdite \ptets@BoiteCalculatriceInterdite \\[2pt]
 
+    \setlength{\tabcolsep}{0pt}
+    \begin{tabular}{p{{\largeurTexte}cm}}
     \textbf{Type de calculatrice~:}
-    \ptets@BoiteTypeCalculatriceTous ~Tous \quad 
-    \ptets@BoiteTypeCalculatriceProgrammable ~Programmable \quad
-    \ptets@BoiteTypeCalculatriceNonProgrammable ~Non-programmable \quad
-    \ptets@BoiteTypeCalculatriceLogiciel ~Logiciel ou application numérique \ptets@formatTextInstructions{(doit indiquer le support dans le matériel informatique)} \\[2pt]
+    Programmable~\ptets@BoiteTypeCalculatriceProgrammable \quad
+    Non-programmable~\ptets@BoiteTypeCalculatriceNonProgrammable \quad
+    Logiciel ou application numérique \ptets@formatTextInstructions{(doit indiquer le support dans le matériel informatique)}~\ptets@BoiteTypeCalculatriceLogiciel \\[2pt]
     \ptets@calculatriceModelesPermis
+    \end{tabular}
 }
 
 
@@ -529,7 +531,7 @@
       \end{tabular}
       \\
       \\[-7pt]
-      {\fontsize{10}{12}\selectfont BDR session \ptets@numSession} &
+      {\fontsize{10}{12}\selectfont BDR MAJ \ptets@numSession} &
       \textbf{Une sanction allant jusqu'\`a l'\'echec pourrait vous \^etre impos\'ee en cas d'infraction au R\`eglement.}
     \end{tabular}
   }
