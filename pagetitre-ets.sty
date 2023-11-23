@@ -218,14 +218,15 @@
   \newcommand{\ptets@BoiteMaterielInformatiqueOui}{\ptets@caseVide}
   \newcommand{\ptets@BoiteMaterielInformatiqueNon}{\ptets@caseCochee}
 }
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseVide ~}
+%\newcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseVide ~}
 \newcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\ptets@caseVide ~}
 \newcommand{\ptets@BoiteTypeMaterielInformatiqueTablette}{\ptets@caseVide ~}
 \newcommand{\ptets@BoiteTypeMaterielInformatiqueCleUSB}{\ptets@caseVide ~}
-\newcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{\ptets@caseVide ~Autre}
+\newcommand{\ptets@BoiteTypeMaterielInformatiqueAutre}{Autres~\ptets@caseVide}
 
 \newcommand{\setTypeMaterielInformatiqueTous}{
-  \renewcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseCochee}
+  \PackageError{pagetitre-ets}{L'option `setTypeMaterielInformatiqueTous` a été retirée dans la MAJ 2023}
+  %\renewcommand{\ptets@BoiteTypeMaterielInformatiqueTous}{\ptets@caseCochee}
 }
 \newcommand{\setTypeMaterielInformatiqueOrdinateurPortable}{
   \renewcommand{\ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable}{\ptets@caseCochee}
@@ -443,13 +444,13 @@
 
 % Mise en forme spécifique de la boîte 'matériel informatique'
 \newcommand{\ptets@materielInformatiquePersonnel}{
-  \ptets@BoiteMaterielInformatiqueOui ~Oui ~~~
-  \ptets@BoiteMaterielInformatiqueNon ~Non
-  \ptets@formatTextInstructions{si oui, précisez :}\\[4pt]
-  \ptets@BoiteTypeMaterielInformatiqueTous Tous \quad 
-  \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable Ordinateur portable \quad 
-  \ptets@BoiteTypeMaterielInformatiqueTablette Tablette \quad 
-  \ptets@BoiteTypeMaterielInformatiqueCleUSB Clé USB \quad 
+  Oui~\ptets@BoiteMaterielInformatiqueOui  \quad
+  Non~\ptets@BoiteMaterielInformatiqueNon
+  \ptets@formatTextInstructions{si oui, précisez :}\\[.5mm]
+  Utilisation d'internet~:~ Autorisée \ptets@caseVide~~~ Prohibée \ptets@caseCochee \\[1.5mm]
+  Ordinateur portable \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable \quad 
+  Tablette \ptets@BoiteTypeMaterielInformatiqueTablette \quad 
+  Clé usb \ptets@BoiteTypeMaterielInformatiqueCleUSB \quad 
   \ptets@BoiteTypeMaterielInformatiqueAutre 
 }
 
