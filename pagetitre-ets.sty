@@ -82,7 +82,7 @@
 
 % Information générales : obligatoire
 \newcommand{\setSaison}[1]{\newcommand{\ptets@saison}{#1}}
-\newcommand{\setAnnee}[1]{\newcommand{\ptets@annee}{#1}}
+\newcommand{\setAnnee}[1]{\newcommand{\ptets@anneeDeLaSession}{#1}\newcommand{\ptets@anneeDeLaDate}{#1}}
 \newcommand{\setType}[1]{\newcommand{\ptets@type}{#1}}
 \newcommand{\setSigleEtTitre}[1]{\newcommand{\ptets@signeEtTitre}{#1}}
 \newcommand{\setGroupes}[1]{\newcommand{\ptets@groupes}{#1}}
@@ -107,6 +107,9 @@
 \newcommand{\setHauteurBoiteDocumentation}[1]{\renewcommand{\ptets@hauteurBoiteDocumentation}{#1}}
 \newcommand{\setHauteurBoiteAnnexes}[1]{\renewcommand{\ptets@hauteurBoiteAnnexes}{#1}}
 \newcommand{\setHauteurBoiteDirectivesParticulieres}[1]{\renewcommand{\ptets@hauteurBoiteDirectivesParticulieres}{#1}}
+
+%
+\newcommand{\setAnneeDifferenteDeLaSession}[1]{\renewcommand{\ptets@anneeDeLaDate}{#1}}
 
 
 % Précisions sur l'endroit où écrire les réponses : optionnel
@@ -321,7 +324,12 @@
     \PackageError{pagetitre-ets}{Saison non spécifiée. Utilisez la commande `setSaison` avec un argument parmi : Hiver, Été, Automne}{}
   }
 
-  \ifdef{\ptets@annee}
+  \ifdef{\ptets@anneeDeLaSession}
+  {}{
+    \PackageError{pagetitre-ets}{Année non spécifiée. Utilisez la commande `setAnnee` avec l'année en argument}{}
+  }
+
+  \ifdef{\ptets@anneeDeLaDate}
   {}{
     \PackageError{pagetitre-ets}{Année non spécifiée. Utilisez la commande `setAnnee` avec l'année en argument}{}
   }
@@ -405,9 +413,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\ptets@construireNumeroDeSession}{
-  \ifthenelse{\equal{\ptets@saison}{Hiver}}{\newcommand{\ptets@numSession}{{\ptets@annee}{1}}}{}
-  \ifthenelse{\equal{\ptets@saison}{Été}}{\newcommand{\ptets@numSession}{{\ptets@annee}{2}}}{}
-  \ifthenelse{\equal{\ptets@saison}{Automne}}{\newcommand{\ptets@numSession}{{\ptets@annee}{3}}}{}
+  \ifthenelse{\equal{\ptets@saison}{Hiver}}{\newcommand{\ptets@numSession}{{\ptets@anneeDeLaSession}{1}}}{}
+  \ifthenelse{\equal{\ptets@saison}{Été}}{\newcommand{\ptets@numSession}{{\ptets@anneeDeLaSession}{2}}}{}
+  \ifthenelse{\equal{\ptets@saison}{Automne}}{\newcommand{\ptets@numSession}{{\ptets@anneeDeLaSession}{3}}}{}
   \ifdef{\ptets@numSession}
   {}{
     \PackageError{pagetitre-ets}{Saison invalide. L'argument de la commande `setSaison` doit être Hiver, Été ou Automne.}{}
@@ -552,7 +560,7 @@
 
   % Session (saison et année) et type d'examen
   \ptets@boiteCentree{1}{
-    \Large\ptets@textbsc{{\ptets@saison} {\ptets@annee} -- {\ptets@type}}
+    \Large\ptets@textbsc{{\ptets@saison} {\ptets@anneeDeLaSession} -- {\ptets@type}}
   }
 
   % Signe, nom du cours, groupes, enseignants, date, heure et durée.
@@ -562,7 +570,7 @@
       \textbf{Sigle et titre~:} & & {\ptets@signeEtTitre}\\
       \textbf{Groupe(s)~:}     & & {\ptets@groupes}\\
       \textbf{Enseignant(s)~:}  & & {\ptets@enseignants}\\
-      \textbf{Date~:}  & & {\large\textbf{\ptets@date~\ptets@annee}} \\
+      \textbf{Date~:}  & & {\large\textbf{\ptets@date~\ptets@anneeDeLaDate}} \\
       \textbf{Heure~:}  & & \ptets@heure \hspace{50mm} \textbf{Dur\'ee~:}~ \ptets@duree
     \end{tabular}
   }
