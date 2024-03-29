@@ -515,31 +515,36 @@
   % Entête avec le logo de l'ÉTS et un avertissement.
   \ptets@boiteCentreeSansBordure{4}{
     \begin{tabular}{@{}p{3cm}@{\hskip 0pt}l@{}}
-      \begin{tabular}[t]{c}
-        \includegraphics[width=2cm]{./logo_ets.png} 
+      \begin{tabular}{c}
+        \includegraphics[width=2cm]{./logo_ets.png} \\
+        {\fontsize{8}{10}\selectfont BDR MAJ \ptets@numSession} 
+        \\[34mm]
       \end{tabular}
       &
       \begin{tabular}[t]{c}
         \begin{minipage}{168mm}
+          \vspace{-4mm}
           \underline{\smash{\ptets@textbsc{Vous devez respecter le r\`eglement sur
           les infractions de nature acad\'emique}}}\\
           \ptets@textbsc{Notamment~:}
           \fontsize{10}{12}\selectfont\bf
           \begin{itemize}
-            \setlength\itemsep{-0.5mm}
+            \setlength\itemsep{-1.5mm}
             \item[\scalebox{0.75}{$\bullet$}] Vous n'\^etes pas autoris\'e \`a avoir en votre possession un
               cellulaire au cours de l'examen. Il doit imp\'erativement
               demeurer \`a l'ext\'erieur de la salle ou \^etre d\'epos\'e \`a
               l'endroit d\'esign\'e par le surveillant, le cas \'ech\'eant.
             \item[\scalebox{0.75}{$\bullet$}] Toujours remettre le questionnaire à la fin de l'examen.
             \item[\scalebox{0.75}{$\bullet$}] Respecter les consignes concernant la documentation permise.
+            \item[\scalebox{0.75}{$\bullet$}] L'utilisation des syst\`emes d’intelligence artificielle
+              g\'en\'erative (SIAG) dans les activit\'es d'\'evaluation constitue une infraction au sens du
+              R\`eglement, sauf si elle est explicitement autoris\'ee par l'enseignant(e) du cours. 
+            \item[\scalebox{0.75}{$\bullet$}] Une sanction allant jusqu'\`a l'\'echec pourrait vous
+              \^etre impos\'ee en cas d'infraction au R\`eglement.
           \end{itemize}
         \end{minipage}
+        \\[10mm]
       \end{tabular}
-      \\
-      \\[-7pt]
-      {\fontsize{10}{12}\selectfont BDR MAJ \ptets@numSession} &
-      \textbf{Une sanction allant jusqu'\`a l'\'echec pourrait vous \^etre impos\'ee en cas d'infraction au R\`eglement.}
     \end{tabular}
   }
 
@@ -578,8 +583,8 @@
   % Où écrire les réponses
   \ptets@boite{\ptets@hauteurBoiteOuEcrireLesReponses}{
     \begin{tabular}{p{{\largeurTexte}cm}}
-      \textbf{\'Ecrire les r\'eponses~:}$\;$ Examen papier \ptets@caseCochee, $\;$
-      \ptets@ouEcrireLesReponses
+      \textbf{\'Ecrire les r\'eponses~:}\\
+      Examen papier \ptets@caseCochee, $\;$ \ptets@ouEcrireLesReponses
       \ptets@ouEcrireLesReponsesPrecisions
     \end{tabular}
   }
