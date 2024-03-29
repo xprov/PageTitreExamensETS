@@ -101,6 +101,7 @@
 \newcommand{\ptets@hauteurBoiteDocumentation}{1.4}
 \newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
 \newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{3.2}
+\newcommand{\ptets@nbPointsTotal}{}
 % Redéfinitions par l'utilisateur 
 \newcommand{\setHauteurBoiteOuEcrireLesReponses}[1]{\renewcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{#1}}
 \newcommand{\setHauteurBoiteCalculatrice}[1]{\renewcommand{\ptets@hauteurBoiteCalculatrice}{#1}}
@@ -252,6 +253,11 @@
 \newcommand{\ptets@formatTextInstructions}[1]{\textit{\fontsize{10}{12}\selectfont #1}}
 \newcommand{\cacherInstructions}{
   \renewcommand{\ptets@formatTextInstructions}[1]{}
+}
+
+% AFfiche le nombre total de points dans la case prévue à cet effet en bas de la page
+\newcommand{\setNbTotalDePoints}[1]{
+  \renewcommand{\ptets@nbPointsTotal}{#1}
 }
 
 
@@ -484,10 +490,12 @@
     \draw (\x+\dx, \y)     rectangle node{/~} +(\dx, \dy);
     \draw (\x+\dx, \y+\dy) rectangle node{/~} +(\dx, \dy);
   };
+
   \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
   \draw (0, \hauteurCourante) rectangle  +(5*\largeurCaseAPoints, 0.8);
   \node[left] at (5 * \largeurCaseAPoints, \hauteurCourante + 0.4) {\textsc{Total~:}};
   \draw (5*\largeurCaseAPoints, \hauteurCourante) rectangle node{\Large /} +(2*\largeurCaseAPoints, 0.8);
+  \node at (6.5*\largeurCaseAPoints, \hauteurCourante + 0.4) {\ptets@nbPointsTotal};
   \draw (7*\largeurCaseAPoints, \hauteurCourante) rectangle node{
     Signature~:~\underline{\hspace{8.0cm}}
   } +(7*\largeurCaseAPoints, 0.8);
