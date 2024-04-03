@@ -536,20 +536,32 @@
           les infractions de nature acad\'emique}}}\\
           \ptets@textbsc{Notamment~:}
           \fontsize{10}{12}\selectfont\bf
-          \begin{itemize}
-            \setlength\itemsep{-1.5mm}
-            \item[\scalebox{0.75}{$\bullet$}] Vous n'\^etes pas autoris\'e \`a avoir en votre possession un
+          \begin{enumerate}[\fontsize{10}{12}\selectfont\bf\scalebox{0.85}{\textbullet}]
+            % Suggestion de JML : ajuster l'espacement horizontal afin de
+            % minimiser les retours de chariots. Cette façon de faire a un
+            % effet secondaire très positif : on écrase les longueurs 
+            % définies par l'utilisateur, par exemple via le package babel.
+            \setlength{\itemindent}{0pt}
+            \setlength{\labelsep}{5pt}
+            \setlength{\partopsep}{0pt}
+            \setlength{\itemsep}{2pt}
+            \setlength{\rightmargin}{0pt}
+            \setlength{\labelwidth}{0pt}
+            \setlength{\listparindent}{0pt}
+            \setlength{\parskip}{0pt}
+            \setlength{\parsep}{0pt}
+            \item Vous n'\^etes pas autoris\'e \`a avoir en votre possession un
               cellulaire au cours de l'examen. Il doit imp\'erativement
               demeurer \`a l'ext\'erieur de la salle ou \^etre d\'epos\'e \`a
               l'endroit d\'esign\'e par le surveillant, le cas \'ech\'eant.
-            \item[\scalebox{0.75}{$\bullet$}] Toujours remettre le questionnaire à la fin de l'examen.
-            \item[\scalebox{0.75}{$\bullet$}] Respecter les consignes concernant la documentation permise.
-            \item[\scalebox{0.75}{$\bullet$}] L'utilisation des syst\`emes d’intelligence artificielle
+            \item Toujours remettre le questionnaire à la fin de l'examen.
+            \item Respecter les consignes concernant la documentation permise.
+            \item L'utilisation des syst\`emes d’intelligence artificielle
               g\'en\'erative (SIAG) dans les activit\'es d'\'evaluation constitue une infraction au sens du
               R\`eglement, sauf si elle est explicitement autoris\'ee par l'enseignant(e) du cours. 
-            \item[\scalebox{0.75}{$\bullet$}] Une sanction allant jusqu'\`a l'\'echec pourrait vous
+            \item Une sanction allant jusqu'\`a l'\'echec pourrait vous
               \^etre impos\'ee en cas d'infraction au R\`eglement.
-          \end{itemize}
+          \end{enumerate}
         \end{minipage}
         \\[10mm]
       \end{tabular}
