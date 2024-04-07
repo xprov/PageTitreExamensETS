@@ -456,15 +456,15 @@
 
 % Mise en forme spécifique de la boîte 'matériel informatique'
 \newcommand{\ptets@materielInformatiquePersonnel}{
-  Oui~\ptets@BoiteMaterielInformatiqueOui  \quad
-  Non~\ptets@BoiteMaterielInformatiqueNon
-  \ptets@formatTextInstructions{si oui, précisez :}\\[2.5mm]
+  oui~\ptets@BoiteMaterielInformatiqueOui  \quad
+  non~\ptets@BoiteMaterielInformatiqueNon~~~ si oui, précisez :\\[2.5mm]
+  %\ptets@formatTextInstructions{si oui, précisez :}\\[2.5mm]
   %Utilisation d'internet~:~ Autorisée \ptets@caseVide~~~ Prohibée \ptets@caseCochee \\[1.5mm]
   Ordinateur portable \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable \quad 
   Tablette \ptets@BoiteTypeMaterielInformatiqueTablette \quad 
   Clé usb \ptets@BoiteTypeMaterielInformatiqueCleUSB \quad 
   \ptets@BoiteTypeMaterielInformatiqueAutre \\[1.5mm]
-  Utilisation d'internet~:~ Autorisée \ptets@caseVide~~~ Prohibée \ptets@caseCochee
+  Utilisation d'internet~:~ autorisée avec SIAG \ptets@caseVide~~~ autorisée \ptets@caseVide~~~ interdite \ptets@caseCochee
 }
 
 
@@ -665,7 +665,7 @@
       &
       \begin{tabular}[t]{p{15cm}}
         Examen en plusieurs parties~: \ptets@examenEnPlusieursParties\\[1mm]
-        Matériel informatique personnel autorisé~: \ptets@materielInformatiquePersonnel\\[1mm]
+        Matériel informatique autorisé propore à l'étudiant~: \ptets@materielInformatiquePersonnel\\[1mm]
       \end{tabular}
     \end{tabular}
   }
