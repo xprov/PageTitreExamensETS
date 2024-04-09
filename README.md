@@ -7,6 +7,8 @@ La [page titre officielle](https://www.etsmtl.ca/docs/personnel-enseignant-exame
 
 Le but de ce projet est d'offrir une alternative en LaTeX.
 
+**Avertissement** : le bureau de la registraire (BDR) effectue régulièrement des mises à jour de sa page titre. Il est de votre responsabilité de vous assurer que la version que vous utilisez contient toutes les informations requises. En cas de disparité, veuillez utiliser la version officielle.
+
 <a href="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_simple.png"><img src="https://profs.etsmtl.ca/xprovencal/pagetitre/exemple_simple.png" width="300"/></a>
 
 
