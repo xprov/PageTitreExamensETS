@@ -32,12 +32,3 @@ Le but de ce projet est d'offrir une alternative en LaTeX.
 ```latex
 \pagetitreETS
 ```
-
-
-## TODO
-
-Bug : la taille du texte de la page titre est affecté par le paramètre de taille de
-la commande `\documentclass`.
-
-
-
