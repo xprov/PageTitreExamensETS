@@ -464,7 +464,7 @@
   Tablette \ptets@BoiteTypeMaterielInformatiqueTablette \quad 
   Clé usb \ptets@BoiteTypeMaterielInformatiqueCleUSB \quad 
   \ptets@BoiteTypeMaterielInformatiqueAutre \\[1.5mm]
-  Utilisation d'internet~:~ autorisée avec SIAG \ptets@caseVide~~~ autorisée \ptets@caseVide~~~ interdite \ptets@caseCochee
+  Utilisation d'internet~:~ autorisée avec \textbf{SIAG} \ptets@caseVide~~~ autorisée \ptets@caseVide~~~ interdite \ptets@caseCochee
 }
 
 
@@ -475,7 +475,7 @@
   \tikzmath{\largeurCaseAPoints = \largeurBoites / 14;}
   \tikzmath{\hauteurUneLigne = 0.5;}
   \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
-  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur (facultatif)}} +(\largeurBoites, \hauteurUneLigne);
+  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur \ptets@formatTextInstructions{\upshape(facultatif)}}} +(\largeurBoites, \hauteurUneLigne);
 
   \tikzmath{\hauteurCourante = \hauteurCourante + 0.5;}
   \draw (\hauteurCourante + 0 * \largeurCaseAPoints, \hauteurCourante) rectangle node {Q1} +(\largeurCaseAPoints, \hauteurUneLigne);
