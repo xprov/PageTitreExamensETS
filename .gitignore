@@ -3,4 +3,6 @@
 exemple/examen.pdf
 *.synctex.gz
 *.latexmain
+*.fdb_latexmk
+*.fls
 makefile
