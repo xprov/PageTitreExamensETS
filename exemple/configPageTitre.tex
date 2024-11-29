@@ -1,3 +1,9 @@
+% AVERTISSEMENT : en cas de doute, toujours vous référer à la version
+% officielle, au format Word, fournie par le BDR.
+% Celle-ci et les instructions sont disponibles sur l'intranet :
+% https://intranet.etsmtl.ca/intradm/daa/personnel-enseignant?aliaspath=/intradm/DAA/personnel-enseignant
+
+
 %%% Les tailles des boites sont fixes et ne tiennent pas compte de ce
 %%% qui y est écrit. Si vous souhaitez modifier la taille d'une boite, 
 %%% utilisez les commandes suivantes:
@@ -33,7 +39,7 @@
 % Dans de rares cas, un examen a lieu à une date dont l'année est différente de
 % celle de la session. Typiquement, il s'agit des examens de reprises effectués
 % en janvier.
-\setAnneeDifferenteDeLaSession{2024}
+%\setAnneeDifferenteDeLaSession{2024}
 
 
 %%%  Informations générales
@@ -50,7 +56,7 @@
 %\setOuEcrireLesReponses{sur ce questionnaire pour les questions ?? à ?? et dans le cahier d'examen standard ÉTS pour les question ?? à ??.}
 
 %% facultatif : ajouter des précisions quant à l'endroit où écrire les réponses
-%\setOuEcrireLesReponsesPrecisions{Pour les graphiques, utilisez des crayons de couleur.}
+%\setOuEcrireLesReponsesPrecisions{Pour les graphiques, utilisez des crayons de couleurs.}
 
 
 % Nombre de question et nombre de pages. Si l'examen est sur ENAQuiz, il faut
@@ -58,17 +64,18 @@
 %\setNbPages{5} % optionnel, si non spécifié alors la valeur `\pageref{LastPage}` est utilisée
 
 
-%% Calculatrice, indiquee si elle est autorisee ou interdite (obligatoire)
-%\setCalculatriceAutorisee
-\setCalculatriceInterdite
+%% Calculatrice, indiquez si elle est autorisee ou interdite (obligatoire)
+\setCalculatriceAutorisee
+%\setCalculatriceInterdite
 
 %% Si la calculatrice est autorisée, indiquée le type (une case sera cochée)
-%\setTypeCalculatriceProgrammable
+%\setTypeCalculatriceTous
+\setTypeCalculatriceProgrammable
 %\setTypeCalculatriceNonProgrammable
 %\setTypeCalculatriceLogiciel
 
 %% Indiquez le(s) modèle(s) de calculatrice
-%\setCalculatriceModelesPermis{``TI-nspire CX CAS'' et ``TI-nspire CX II CAS''.}
+\setCalculatriceModelesPermis{``TI-nspire CX CAS'' et ``TI-nspire CX II CAS''.}
 
 %% Documentation, choisissez au moins une options et complétez si nécessaire.
 %% La commande `\item` n'est pas optionnelle.
@@ -108,6 +115,7 @@
 \setMaterielInformatiqueInterdit
 
 %% Si du matériel informatique est autorisée, il faut obligatoirement préciser de quoi il s'agit
+%\setTypeMaterielInformatiqueTous
 %\setTypeMaterielInformatiqueOrdinateurPortable
 %\setTypeMaterielInformatiqueTablette
 %\setTypeMaterielInformatiqueCleUSB
@@ -115,7 +123,7 @@
 
 
 %% Pour cacher les instruction s'adressant à la personne qui rédige l'examen
-\cacherInstructions
+%\cacherInstructions
 
 %% Pour afficher le nombre total de points dans la case `Total` située tout en bas.
 %\setNbTotalDePoints{100}
