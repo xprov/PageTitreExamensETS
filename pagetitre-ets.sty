@@ -2,9 +2,9 @@
 %% fignoler un document LaTeX plutôt que d'utiliser Word pour modifier la 
 %% page titre officielle de l'ÉTS !
 %%
-%% https://intranet.etsmtl.ca/intradm/daa/personnel-enseignant?aliaspath=/intradm/DAA/personnel-enseignant
 %% 
-%% Sentez-vous libre de modifier ce document et si vous l'améliorez, partagez-le !
+%% Sentez-vous libre de modifier ce document et si vous l'améliorez, svp partagez-le !
+%%
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{pagetitre-ets}[2022/02/21 (Xavier Provençal) Page titre pour examens à l'ÉTS]
@@ -470,9 +470,22 @@
 }
 
 
-% Mise enforme de la boîte où inscrire les points de chacune des questions
-% (l'affaire que personne n'utilise).
+% Modifications par Jérôme Quintin
+% Mise en forme de la boîte où inscrire les points de chacune des questions
 \newcommand{\ptets@boiteAPoints}{%
+\makeatletter
+\@ifclassloaded{exam}
+  {%
+    \ptets@boiteAPointsCustom
+  }
+  {%
+    \ptets@boiteAPointsDefault
+  }
+\makeatother
+}
+
+
+\newcommand{\ptets@boiteAPointsDefault}{%
   \tikzmath{\hauteurBoiteAPoints = 2.3;}
   \tikzmath{\largeurCaseAPoints = \largeurBoites / 14;}
   \tikzmath{\hauteurUneLigne = 0.5;}
@@ -502,6 +515,97 @@
   \draw (7*\largeurCaseAPoints, \hauteurCourante) rectangle node{
     Signature~:~\underline{\hspace{8.0cm}}
   } +(7*\largeurCaseAPoints, 0.8);
+}
+
+\newcommand{\ptets@boiteAPointsCustom}{%
+  % Récupérer le nombre de questions depuis la macro \numquestions du package exam
+  %\expandafter\def\expandafter\nbQuestionsValue\expandafter{\numquestions}%
+  %
+  %% Vérification de sécurité : si la valeur est vide, utiliser 14 comme défaut
+  %\ifx\nbQuestionsValue\empty
+  %  \edef\nbQuestionsValue{14}%
+  %\fi
+  %
+  %% Vérification de sécurité : si la valeur est inférieure à 1, utiliser 14 comme défaut
+  %% Cela évite une division par zéro dans les calculs TikZ qui suivent
+  %\ifnum\nbQuestionsValue<1\relax
+  %  \edef\nbQuestionsValue{14}%
+  %\fi
+
+  \newcommand{\nbQuestionsValue}{\ptets@nbQuestions}
+
+  \tikzmath{
+    integer \nbQ; \nbQ = \nbQuestionsValue;
+    integer \nbColonnes; \nbColonnes = ceil(\nbQ / 2);
+    \hauteurBoiteAPoints = 2.3;
+    \largeurCaseAPoints = \largeurBoites / \nbColonnes;
+    \demiLargeur = \largeurCaseAPoints / 2;
+    \hauteurUneLigne = 0.5;
+  }
+
+  % Dessiner le rectangle gris de fond pour toute la boîte des points
+  \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
+  
+  % Dessiner une première ligne avec le texte "Réservé à l'enseignant ou au correcteur"
+  \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur \ptets@formatTextInstructions{\upshape(facultatif)}}} +(\largeurBoites, \hauteurUneLigne);
+
+  % Incrémenter la hauteur courante pour positionner les éléments suivants plus bas
+  \tikzmath{\hauteurCourante = \hauteurCourante + 0.5;}
+
+  % Boucle pour créer les cellules des questions
+  % Itère sur chaque colonne (de 1 à nbColonnes)
+  \foreach \i in {1, ..., \nbColonnes} {
+    \tikzmath{
+      integer \col, \q1, \q2;
+      \col = \i - 1;
+      \q1 = \col + 1;
+      \q2 = \col + \nbColonnes + 1;
+      \x = \col * \largeurCaseAPoints;
+      \y = \hauteurCourante;
+      \dy = \hauteurUneLigne;
+    }
+
+    % Afficher la première question (ligne du bas) si elle existe
+    % Condition : ne dessiner que si le numéro de question est <= au nombre total de questions
+    \ifnum\q1>\nbQ\else
+      % Dessiner un rectangle pour le numéro de question
+      \draw (\x, \y) rectangle +(\demiLargeur, \dy) node[left] at +(\demiLargeur, \dy/2) {Q\pgfmathprintnumber{\q1}~:};
+      % Dessiner un rectangle pour la case des points (avec "/" et les points de la question)
+      \draw (\x+\demiLargeur, \y) rectangle +(\demiLargeur, \dy)
+            node[anchor=east, xshift=-2pt] at +(\demiLargeur, \dy/2) {/~\pointsofquestion{\q1}};
+    \fi
+
+    % Afficher la deuxième question (ligne du haut) si elle existe
+    % Les deux questions sont affichées côte à côte dans une même colonne
+    \ifnum\q2>\nbQ\else
+      % Dessiner un rectangle pour le numéro de question
+      \draw (\x, \y+\dy) rectangle +(\demiLargeur, \dy) node[left] at +(\demiLargeur, \dy/2) {Q\pgfmathprintnumber{\q2}~:};
+      % Dessiner un rectangle pour la case des points
+      \draw (\x+\demiLargeur, \y+\dy) rectangle +(\demiLargeur, \dy)
+            node[anchor=east, xshift=-2pt] at +(\demiLargeur, \dy/2) {/~\pointsofquestion{\q2}};
+    \fi
+  }
+
+  % Incrémenter la hauteur courante après la boucle
+  \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
+  
+  % Calculer les largeurs pour la section "Total" et "Signature" en bas
+  \tikzmath{\largeurTotalLabel = \largeurBoites * 0.35;}
+  \tikzmath{\largeurTotalCase = \largeurBoites * 0.15;}
+  \tikzmath{\largeurSignature = \largeurBoites * 0.50;}
+
+  % Dessiner le rectangle pour "Total :"
+  \draw (0, \hauteurCourante) rectangle +(\largeurTotalLabel, 0.8);
+  \node[left] at (\largeurTotalLabel - 0.2, \hauteurCourante + 0.4) {\textsc{Total~:}};
+
+  % Dessiner la case pour inscrire le total des points (utilise \numpoints du package exam)
+  \draw (\largeurTotalLabel, \hauteurCourante) rectangle +(\largeurTotalCase, 0.8)
+        node[anchor=east, xshift=-2pt] at +(\largeurTotalCase, 0.4) {/ \numpoints};
+
+  % Dessiner le rectangle pour la zone "Signature :" avec un trait de signature
+  \draw (\largeurTotalLabel + \largeurTotalCase, \hauteurCourante) rectangle node{
+    \textsc{Signature~:}~\underline{\hspace{4.5cm}}
+  } +(\largeurSignature, 0.8);
 }
 
 
