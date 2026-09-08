@@ -519,20 +519,21 @@
 
 \newcommand{\ptets@boiteAPointsCustom}{%
   % Récupérer le nombre de questions depuis la macro \numquestions du package exam
-  \expandafter\def\expandafter\nbQuestionsValue\expandafter{\numquestions}%
-  %
-  % Vérification de sécurité : si la valeur est vide, utiliser 14 comme défaut
-  \ifx\nbQuestionsValue\empty
-    \edef\nbQuestionsValue{14}%
-  \fi
-  %
-  % Vérification de sécurité : si la valeur est inférieure à 1, utiliser 14 comme défaut
-  % Cela évite une division par zéro dans les calculs TikZ qui suivent
-  \ifnum\nbQuestionsValue<1\relax
-    \edef\nbQuestionsValue{14}%
-  \fi
+  \@ifundefined{exam@numquestions}{%
+    % Si la valeur n'est pas encore définie (ex: première compilation sans fichier .aux),
+    % on utilise une valeur par défaut de 14
+    \def\nbQuestionsValue{14}%
+  }{%
+    % Si elle est définie, on l'affecte à notre variable interne
+    \def\nbQuestionsValue{\exam@numquestions}%
+    % Sécurité : si le nombre de questions est inférieur à 1, on force la valeur à 14
+    \ifnum\nbQuestionsValue<1\relax
+      \def\nbQuestionsValue{14}%
+    \fi
+  }%
 
-  \newcommand{\nbQuestionsValue}{\ptets@nbQuestions}
+  % Redéfinit la macro pour stocker la valeur finale du nombre de questions \ptets@nbQuestions
+  \edef\ptets@nbQuestions{\nbQuestionsValue}%
 
   \tikzmath{
     integer \nbQ; \nbQ = \nbQuestionsValue;
@@ -675,7 +676,7 @@
     \end{tabular}
   }
 
-  \ptets@espaceVertical{0.2};
+  \ptets@espaceVertical{0.2}
 
   % Nom, Prénom, Signature, Code Permanent.
   \ptets@boiteCentreeSansBordure{1.6}{
@@ -688,7 +689,7 @@
     \end{tikzpicture}
   }
 
-  \ptets@espaceVertical{0.5};
+  \ptets@espaceVertical{0.5}
 
   % Session (saison et année) et type d'examen
   \ptets@boiteCentree{1}{
@@ -777,7 +778,7 @@
     \end{tabular}
   }
 
-  \ptets@espaceVertical{0.5};
+  \ptets@espaceVertical{0.5}
   \ptets@boiteAPoints
 }
 
