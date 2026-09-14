@@ -536,12 +536,15 @@
   \edef\ptets@nbQuestions{\nbQuestionsValue}%
 
   \tikzmath{
+    integer \nbMinCasesParLigne; \nbMinCasesParLigne = 5;
     integer \nbQ; \nbQ = \nbQuestionsValue;
-    integer \nbColonnes; \nbColonnes = ceil(\nbQ / 2);
+    integer \nbLignes; \nbLignes = min(ceil(\nbQ / \nbMinCasesParLigne), 2);
+    integer \nbColonnes; \nbColonnes = ceil(\nbQ / \nbLignes);
     \hauteurBoiteAPoints = 2.3;
-    \largeurCaseAPoints = \largeurBoites / \nbColonnes;
+    \largeurCaseAPoints = min(\largeurBoites / \nbColonnes, \nbMinCasesParLigne);
     \demiLargeur = \largeurCaseAPoints / 2;
     \hauteurUneLigne = 0.5;
+    \hauteurBoiteAPoints = ifthenelse(\nbLignes > 1, \hauteurBoiteAPoints, \hauteurBoiteAPoints - \hauteurUneLigne);
   }
 
   % Dessiner le rectangle gris de fond pour toute la boîte des points
@@ -588,7 +591,7 @@
   }
 
   % Incrémenter la hauteur courante après la boucle
-  \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
+  \tikzmath{\hauteurCourante = ifthenelse(\nbLignes > 1, \hauteurCourante + 1.0, \hauteurCourante + 1.0 - \hauteurUneLigne);}
 
   % Calculer les largeurs pour la section "Total" et "Signature" en bas
   \tikzmath{\largeurTotalLabel = \largeurBoites * 0.35;}
