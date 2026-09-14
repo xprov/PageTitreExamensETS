@@ -1,8 +1,8 @@
 %% Ce fichier est pour tous ceux et celles qui préfères perdre des heures à
-%% fignoler un document LaTeX plutôt que d'utiliser Word pour modifier la 
+%% fignoler un document LaTeX plutôt que d'utiliser Word pour modifier la
 %% page titre officielle de l'ÉTS !
 %%
-%% 
+%%
 %% Sentez-vous libre de modifier ce document et si vous l'améliorez, svp partagez-le !
 %%
 
@@ -25,12 +25,12 @@
 %
 % Note : Toutes les commandes internes à ce package sont préfixeée par `\ptets@`.
 %
-% Principe général : 
+% Principe général :
 %
 %     Dans le préambule de son document, l'utilisateur configure la page-titre
 %     avec les commandes `\setAnnee`, `\setType`, `\setEnseignants`, etc.
 %     Chacune de ces commandes a pour effet de définir ou redéfinir une
-%     commande interne. 
+%     commande interne.
 %
 %     S'il s'agit d'une commande obligatoire (par exemple : `\setDate`) alors
 %     une erreur est soulevée si la commande n'est pas appelée.
@@ -42,17 +42,17 @@
 %
 %
 % Structure de ce fichier :
-%   
+%
 %   1. Constantes
 %   2. Les commandes de configuration
 %   3. Les commandes internes
-%     3.1 Les macros 
+%     3.1 Les macros
 %     3.2 Validation de la configuration l'utilisateur
 %     3.3 Mise en forme de la page-titre
 %   4. La commande qui construit la page-titre
-%   
 %
-% 
+%
+%
 %
 %
 %
@@ -67,7 +67,7 @@
   \tikzmath{\largeurBoiteEnglobante = 20;}
   \tikzmath{\hauteurBoiteEnglobante = 23.6;}
   \tikzmath{\largeurBoites = \largeurBoiteEnglobante;} % largeur des boîtes
-  \tikzmath{\largeurTexte = \largeurBoites - 1.4;} % largeur du texte dans une boîte 
+  \tikzmath{\largeurTexte = \largeurBoites - 1.4;} % largeur du texte dans une boîte
   \tikzmath{\hauteurCourante = 0;} % le haut de la page est 0, positif vers le bas
 }
 
@@ -104,7 +104,7 @@
 \newcommand{\ptets@hauteurBoiteAnnexes}{0.9}
 \newcommand{\ptets@hauteurBoiteDirectivesParticulieres}{3.2}
 \newcommand{\ptets@nbPointsTotal}{}
-% Redéfinitions par l'utilisateur 
+% Redéfinitions par l'utilisateur
 \newcommand{\setHauteurBoiteOuEcrireLesReponses}[1]{\renewcommand{\ptets@hauteurBoiteOuEcrireLesReponses}{#1}}
 \newcommand{\setHauteurBoiteCalculatrice}[1]{\renewcommand{\ptets@hauteurBoiteCalculatrice}{#1}}
 \newcommand{\setHauteurBoiteDocumentation}[1]{\renewcommand{\ptets@hauteurBoiteDocumentation}{#1}}
@@ -131,7 +131,7 @@
 \newcommand{\setNbQuestions}[1]{\newcommand{\ptets@nbQuestions}{#1}}
 
 % Calculatrice.
-% L'utilisateur doit obligatoirement utiliser une des deux commandes : 
+% L'utilisateur doit obligatoirement utiliser une des deux commandes :
 % `\setCalculatriceAutorisee` ou `\setCalculatriceInterdite`.
 % Dans les deux cas, la commande interne `\ptets@calculatriceAutoriseeOuNon`
 % est définie ce qui permet de valider le fait que l'utilisateur a bien indiqué
@@ -250,7 +250,7 @@
 % La page titre officielle contient des instructions destinées à la personne
 % qui rédige l'examen. Cette approche semble contraire à l'objectif de la page
 % titre qui, elle, s'adresse aux étudiants et aux surveillants.
-% 
+%
 % Ainsi, la commande `\cacherInstructions` permet de supprimer ces directives.
 \newcommand{\ptets@formatTextInstructions}[1]{\textit{\fontsize{10}{12}\selectfont #1}}
 \newcommand{\cacherInstructions}{
@@ -442,7 +442,7 @@
 % Mise en forme spécifique de la boîte 'calculatrice'
 \newcommand{\ptets@calculatrice}{
   \textbf{Calculatrice~:} \ptets@formatTextInstructions{(doit indiquer le type si autorisée)}~~
-    Autorisée \ptets@BoiteCalculatriceAutorisee \quad 
+    Autorisée \ptets@BoiteCalculatriceAutorisee \quad
     Interdite \ptets@BoiteCalculatriceInterdite \\[2pt]
 
     \setlength{\tabcolsep}{0pt}
@@ -462,9 +462,9 @@
   non~\ptets@BoiteMaterielInformatiqueNon~~~ si oui, précisez :\\[2.5mm]
   %\ptets@formatTextInstructions{si oui, précisez :}\\[2.5mm]
   %Utilisation d'internet~:~ Autorisée \ptets@caseVide~~~ Prohibée \ptets@caseCochee \\[1.5mm]
-  Ordinateur portable \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable \quad 
-  Tablette \ptets@BoiteTypeMaterielInformatiqueTablette \quad 
-  Clé usb \ptets@BoiteTypeMaterielInformatiqueCleUSB \quad 
+  Ordinateur portable \ptets@BoiteTypeMaterielInformatiqueOrdinateurPortable \quad
+  Tablette \ptets@BoiteTypeMaterielInformatiqueTablette \quad
+  Clé usb \ptets@BoiteTypeMaterielInformatiqueCleUSB \quad
   \ptets@BoiteTypeMaterielInformatiqueAutre \\[1.5mm]
   Utilisation d'internet~:~ autorisée avec \textbf{SIAG} \ptets@caseVide~~~ autorisée \ptets@caseVide~~~ interdite \ptets@caseCochee
 }
@@ -501,8 +501,8 @@
     \tikzmath{\dy = \hauteurUneLigne;}
     \tikzmath{\q1 = \i+1;}
     \tikzmath{\q2 = \i+8;}
-    \draw (\x, \y) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q1}~:}; 
-    \draw (\x, \y+\dy) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q2}~:}; 
+    \draw (\x, \y) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q1}~:};
+    \draw (\x, \y+\dy) rectangle +(\dx, \dy) node[left] at +(\dx, \dy/2) {Q\pgfmathprintnumber{\q2}~:};
     \draw (\x+\dx, \y)     rectangle node{/~} +(\dx, \dy);
     \draw (\x+\dx, \y+\dy) rectangle node{/~} +(\dx, \dy);
   };
@@ -519,20 +519,21 @@
 
 \newcommand{\ptets@boiteAPointsCustom}{%
   % Récupérer le nombre de questions depuis la macro \numquestions du package exam
-  %\expandafter\def\expandafter\nbQuestionsValue\expandafter{\numquestions}%
-  %
-  %% Vérification de sécurité : si la valeur est vide, utiliser 14 comme défaut
-  %\ifx\nbQuestionsValue\empty
-  %  \edef\nbQuestionsValue{14}%
-  %\fi
-  %
-  %% Vérification de sécurité : si la valeur est inférieure à 1, utiliser 14 comme défaut
-  %% Cela évite une division par zéro dans les calculs TikZ qui suivent
-  %\ifnum\nbQuestionsValue<1\relax
-  %  \edef\nbQuestionsValue{14}%
-  %\fi
+  \@ifundefined{exam@numquestions}{%
+    % Si la valeur n'est pas encore définie (ex: première compilation sans fichier .aux),
+    % on utilise une valeur par défaut de 14
+    \def\nbQuestionsValue{14}%
+  }{%
+    % Si elle est définie, on l'affecte à notre variable interne
+    \def\nbQuestionsValue{\exam@numquestions}%
+    % Sécurité : si le nombre de questions est inférieur à 1, on force la valeur à 14
+    \ifnum\nbQuestionsValue<1\relax
+      \def\nbQuestionsValue{14}%
+    \fi
+  }%
 
-  \newcommand{\nbQuestionsValue}{\ptets@nbQuestions}
+  % Redéfinit la macro pour stocker la valeur finale du nombre de questions \ptets@nbQuestions
+  \edef\ptets@nbQuestions{\nbQuestionsValue}%
 
   \tikzmath{
     integer \nbQ; \nbQ = \nbQuestionsValue;
@@ -545,7 +546,7 @@
 
   % Dessiner le rectangle gris de fond pour toute la boîte des points
   \draw[fill=\ptets@maTeinteDeGris] (0, \hauteurCourante) rectangle  +(\largeurBoites, \hauteurBoiteAPoints);
-  
+
   % Dessiner une première ligne avec le texte "Réservé à l'enseignant ou au correcteur"
   \draw (0, \hauteurCourante) rectangle node{\textbf{Réservé à l'enseignant ou au correcteur \ptets@formatTextInstructions{\upshape(facultatif)}}} +(\largeurBoites, \hauteurUneLigne);
 
@@ -588,7 +589,7 @@
 
   % Incrémenter la hauteur courante après la boucle
   \tikzmath{\hauteurCourante = \hauteurCourante + 1.0;}
-  
+
   % Calculer les largeurs pour la section "Total" et "Signature" en bas
   \tikzmath{\largeurTotalLabel = \largeurBoites * 0.35;}
   \tikzmath{\largeurTotalCase = \largeurBoites * 0.15;}
@@ -646,7 +647,7 @@
           \begin{enumerate}[\fontsize{10}{12}\selectfont\bf\scalebox{0.85}{\textbullet}]
             % Suggestion de JML : ajuster l'espacement horizontal afin de
             % minimiser les retours de chariots. Cette façon de faire a un
-            % effet secondaire très positif : on écrase les longueurs 
+            % effet secondaire très positif : on écrase les longueurs
             % définies par l'utilisateur, par exemple via le package babel.
             \setlength{\itemindent}{0pt}
             \setlength{\labelsep}{5pt}
@@ -665,7 +666,7 @@
             \item Respecter les consignes concernant la documentation permise.
             \item L'utilisation des syst\`emes d’intelligence artificielle
               g\'en\'erative (SIAG) dans les activit\'es d'\'evaluation constitue une infraction au sens du
-              R\`eglement, sauf si elle est explicitement autoris\'ee par l'enseignant(e) du cours. 
+              R\`eglement, sauf si elle est explicitement autoris\'ee par l'enseignant(e) du cours.
             \item Une sanction allant jusqu'\`a l'\'echec pourrait vous
               \^etre impos\'ee en cas d'infraction au R\`eglement.
           \end{enumerate}
@@ -675,12 +676,12 @@
     \end{tabular}
   }
 
-  \ptets@espaceVertical{0.2};
+  \ptets@espaceVertical{0.2}
 
   % Nom, Prénom, Signature, Code Permanent.
   \ptets@boiteCentreeSansBordure{1.6}{
     \begin{tikzpicture}
-      \draw 
+      \draw
       (0,0.8)    rectangle +(9.7, 0.8) node[right] at +(0.1,0.4) {\bf Nom de l'étudiant~:}
       (0,0)      rectangle +(9.7, 0.8) node[right] at +(0.1,0.4) {\bf Prénom~:}
       (10.2,0.8) rectangle +(9.8, 0.8) node[right] at +(0.1,0.4) {\bf Code permanent~:}
@@ -688,7 +689,7 @@
     \end{tikzpicture}
   }
 
-  \ptets@espaceVertical{0.5};
+  \ptets@espaceVertical{0.5}
 
   % Session (saison et année) et type d'examen
   \ptets@boiteCentree{1}{
@@ -766,7 +767,7 @@
       \begin{tabular}[t]{@{}l@{}}
         \textbf{Directives}\\
         \textbf{particulières~:}\\
-        \ptets@formatTextInstructions{précisez les modalités}\\ 
+        \ptets@formatTextInstructions{précisez les modalités}\\
         \ptets@formatTextInstructions{(s'il y a lieu)}
       \end{tabular}
       &
@@ -777,7 +778,7 @@
     \end{tabular}
   }
 
-  \ptets@espaceVertical{0.5};
+  \ptets@espaceVertical{0.5}
   \ptets@boiteAPoints
 }
 
